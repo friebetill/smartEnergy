@@ -2,10 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from nile_backend.models import Package, User
-from nile_backend.serializers import UserSerializer
+from nile_backend.serializers import UserSerializer, PackageSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics, mixins
 
 def index(request):
   return HttpResponse("Hello, world. You're at the polls index.")
@@ -22,3 +22,16 @@ class UserList(APIView):
       serializer.save()
       return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class PackageList(generics.ListAPIView,
+                  mixins.CreateModelMixin,
+                  mixins.ListModelMixin):
+  queryset = Package.objects.all()
+  serializer_class = PackageSerializer
+
+  # def get_queryset(self):
+    # username = self.kwargs['username']
+    # pass
+
+  def get(self, request, *args, **kwargs):
+    return self.list(request, *args, **kwargs)
