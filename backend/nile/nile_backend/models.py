@@ -14,9 +14,12 @@ class Location(models.Model):
     return haversine(this.lng, this.lat, other.lng, other.lat)
 
 class User(models.Model):
+  USER_CLIENT = 'client'
+  USER_DELIVERER = 'deliverer'
+  USER_CHOICES = ((USER_CLIENT, 'Client'), (USER_DELIVERER, 'Deliverer'))
   name = models.CharField(max_length=255)
   token = models.CharField(max_length=255, default=None, null=True)
-  # type = models.CharField(max_length=255)
+  type = models.CharField(max_length=31, choices=USER_CHOICES, default=USER_CLIENT)
   locations = models.ManyToManyField(Location)
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
