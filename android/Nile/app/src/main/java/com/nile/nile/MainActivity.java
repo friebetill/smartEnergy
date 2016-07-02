@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /** Called when the user clicks the User button */
+    /** Called when the user clicks the Deliverer button */
     public void setDelivererView(View view) {
         Intent intent = new Intent(this, DelivererRegisterActivity.class);
         startActivity(intent);
