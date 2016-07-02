@@ -22,28 +22,32 @@ public class UserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user);
 
         String json =
-            "[{"
-                + "'id': '1',"
-                + "'deliver_id' : 1,"
-                + "'purchase_id' : '1',"
-                + "'recipient_id' : '1',"
-                + "'sender' : 'Amazon',"
-                + "'status' : 'Open',"
-                + "'estimatedDeliveryTime' : '15.0'"
-                + "},{"
-                + "'id': '1',"
-                + "'deliver_id' : 1,"
-                + "'purchase_id' : '1',"
-                + "'recipient_id' : '1',"
-                + "'sender' : 'Zalando',"
-                + "'status' : 'Open',"
-                + "'estimatedDeliveryTime' : '2.0'"
-                + "}]";
+        "["
+        + "{"
+        +"    \"id\": 1,"
+        +"    \"deliverer\": {"
+        +"      \"id\": 1,"
+        +"      \"name\": \"KarlsruheUser\","
+        +"      \"created_at\": \"2016-07-02T14:18:54.855487Z\","
+        +"      \"updated_at\": \"2016-07-02T14:41:35.280191Z\""
+        +"    },"
+        +"    \"purchaser\": {"
+        +"      \"id\": 4,"
+        +"      \"name\": \"DHL\","
+        +"      \"created_at\": \"2016-07-02T16:17:35.245816Z\","
+        +"      \"updated_at\": \"2016-07-02T16:17:35.246141Z\""
+        +"    },"
+        +"    \"recipient\": null,"
+        +"    \"status\": \"open\","
+        +"    \"created_at\": \"2016-07-02T16:29:13.824609Z\","
+        +"    \"updated_at\": \"2016-07-02T16:29:13.824686Z\""
+        +  "}"
+        +"]";
 
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.LinearLayout1);
 
-        //String orderedItems = excutePost("", "");
+        //String orderedItems = excutePost("http://localhost:8000/users/" + userID + "/packages/", "");
 
         //NilePackage[] packages = new Gson().fromJson(orderedItems, NilePackage[].class);
         NilePackage[] packages = new Gson().fromJson(json, NilePackage[].class);
