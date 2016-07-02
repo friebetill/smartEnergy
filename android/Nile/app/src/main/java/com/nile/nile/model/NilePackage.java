@@ -6,9 +6,9 @@ package com.nile.nile.model;
 public class NilePackage {
 
     private int id;
-    private int deliver_id;
-    private int purchaser_id;
-    private int recipient_id;
+    private NileUser deliverer;
+    private NileUser purchaser;
+    private NileUser recipient;
     private String sender;
     private String status;
     private float estimatedDeliveryTime;
@@ -16,14 +16,14 @@ public class NilePackage {
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
-    public int getDeliver_id() { return deliver_id; }
-    public void setDeliver_id(int deliver_id) { this.deliver_id = deliver_id; }
+    public NileUser getDeliver() { return deliverer; }
+    public void setDeliver(NileUser deliverer) { this.deliverer = deliverer; }
 
-    public int getPurchaser_id() { return purchaser_id; }
-    public void setPurchaser_id(int purchaser_id) { this.purchaser_id = purchaser_id; }
+    public NileUser getPurchaser() { return purchaser; }
+    public void setPurchaser(NileUser purchaser) { this.purchaser = purchaser; }
 
-    public int getRecipient_id() { return recipient_id; }
-    public void setRecipient_id(int recipient_id) { this.recipient_id = recipient_id; }
+    public NileUser getRecipient() { return recipient; }
+    public void setRecipient(NileUser recipient) { this.recipient = recipient; }
 
     public String getSender() { return sender; }
     public void setSender(String sender) { this.sender = sender; }

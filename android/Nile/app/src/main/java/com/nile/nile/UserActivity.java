@@ -2,6 +2,7 @@ package com.nile.nile;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,6 +16,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 public class UserActivity extends AppCompatActivity {
 
     @Override
@@ -22,29 +25,34 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
+
         String json =
-            "[{"
-                + "'id': '1',"
-                + "'deliver_id' : 1,"
-                + "'purchase_id' : '1',"
-                + "'recipient_id' : '1',"
-                + "'sender' : 'Amazon',"
-                + "'status' : 'Open',"
-                + "'estimatedDeliveryTime' : '15.0'"
-                + "},{"
-                + "'id': '1',"
-                + "'deliver_id' : 1,"
-                + "'purchase_id' : '1',"
-                + "'recipient_id' : '1',"
-                + "'sender' : 'Zalando',"
-                + "'status' : 'Open',"
-                + "'estimatedDeliveryTime' : '2.0'"
-                + "}]";
+        "["
+        + "{"
+        +"    \"id\": 1,"
+        +"    \"deliverer\": {"
+        +"      \"id\": 1,"
+        +"      \"name\": \"KarlsruheUser\","
+        +"      \"created_at\": \"2016-07-02T14:18:54.855487Z\","
+        +"      \"updated_at\": \"2016-07-02T14:41:35.280191Z\""
+        +"    },"
+        +"    \"purchaser\": {"
+        +"      \"id\": 4,"
+        +"      \"name\": \"DHL\","
+        +"      \"created_at\": \"2016-07-02T16:17:35.245816Z\","
+        +"      \"updated_at\": \"2016-07-02T16:17:35.246141Z\""
+        +"    },"
+        +"    \"recipient\": null,"
+        +"    \"status\": \"open\","
+        +"    \"created_at\": \"2016-07-02T16:29:13.824609Z\","
+        +"    \"updated_at\": \"2016-07-02T16:29:13.824686Z\""
+        +  "}"
+        +"]";
 
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.LinearLayout1);
 
-        //String orderedItems = excutePost("", "");
+        //String orderedItems = excutePost("http://localhost:8000/users/" + userID + "/packages/", "");
 
         //NilePackage[] packages = new Gson().fromJson(orderedItems, NilePackage[].class);
         NilePackage[] packages = new Gson().fromJson(json, NilePackage[].class);
@@ -56,6 +64,61 @@ public class UserActivity extends AppCompatActivity {
 
             layout.addView(textView);
         }
+
+        Log.d("TOKEN",FirebaseInstanceId.getInstance().getToken());
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        LinearLayout layout = (LinearLayout) findViewById(R.id.LinearLayout1);
+        layout.removeAllViews();
+
+        TextView orders = new TextView(this);
+        orders.setTextSize(25);
+        orders.setText("Orders");
+
+        layout.addView(orders);
+
+        String json =
+                "["
+                + "{"
+                +"    \"id\": 1,"
+                +"    \"deliverer\": {"
+                +"      \"id\": 1,"
+                +"      \"name\": \"KarlsruheUser\","
+                +"      \"created_at\": \"2016-07-02T14:18:54.855487Z\","
+                +"      \"updated_at\": \"2016-07-02T14:41:35.280191Z\""
+                +"    },"
+                +"    \"purchaser\": {"
+                +"      \"id\": 4,"
+                +"      \"name\": \"DHL\","
+                +"      \"created_at\": \"2016-07-02T16:17:35.245816Z\","
+                +"      \"updated_at\": \"2016-07-02T16:17:35.246141Z\""
+                +"    },"
+                +"    \"recipient\": null,"
+                +"    \"status\": \"open\","
+                +"    \"created_at\": \"2016-07-02T16:29:13.824609Z\","
+                +"    \"updated_at\": \"2016-07-02T16:29:13.824686Z\""
+                +  "}"
+                +"]";
+
+        //String orderedItems = excutePost("http://localhost:8000/users/" + userID + "/packages/", "");
+
+        //NilePackage[] packages = new Gson().fromJson(orderedItems, NilePackage[].class);
+        NilePackage[] packages = new Gson().fromJson(json, NilePackage[].class);
+
+        for(int i = 0; i < packages.length; i++){
+            TextView textView = new TextView(this);
+            textView.setTextSize(25);
+            textView.setText(packages[i].getSender() + " " + (int) packages[i].getEstimatedDeliveryTime() + "m");
+
+            layout.addView(textView);
+        }
+
+        Log.d("TOKEN",FirebaseInstanceId.getInstance().getToken());
 
     }
 

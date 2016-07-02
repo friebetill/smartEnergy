@@ -26,12 +26,10 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^users/$', views.UserList.as_view()),
+    url(r'^packages/$', views.PackageList.as_view()),
+    url(r'^users/(?P<user_id>.+)/packages/$', views.PackageList.as_view()),
+    url(r'^users/(?P<user_id>.+)/store_token/$', views.UserList.as_view()),
+    url(r'^users/(?P<user_id>.+)/locations/$', views.LocationList.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
-
-# class PackageSerializer(serializers.Serializer):
-#    id = serializers.IntegerField(readOnly=true)
-    # deliverer = serializers.
-#    name = serializers.CharField(max_length=200)
-
