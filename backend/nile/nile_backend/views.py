@@ -39,11 +39,9 @@ class PackageList(generics.ListAPIView,
   queryset = Package.objects.all()
   serializer_class = PackageSerializer
 
-  def get_queryset(self):
-    if 'user_id' in self.kwargs:
-      user_id = self.kwargs['user_id']
-      return Package.objects.filter(purchaser__id=user_id)
-    return Package.objects.all()
+  # def get_queryset(self):
+    # username = self.kwargs['username']
+    # pass
 
-  # def get(self, request, *args, **kwargs):
-    # return self.list(request, *args, **kwargs)
+  def get(self, request, *args, **kwargs):
+    return self.list(request, *args, **kwargs)
