@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from nile_backend.models import Package, User
-from nile_backend.serializers import UserSerializer, PackageSerializer
+from nile_backend.models import Package, User, Location, Address
+from nile_backend.serializers import UserSerializer, PackageSerializer, LocationSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics, mixins
@@ -27,7 +27,7 @@ class UserList(APIView):
     user = User.objects.get(id=user_id)
     user.token = request.body
     user.save()
-    return Response(user.name, status=status.HTTP_400_BAD_REQUEST)
+    return Response( status=status.HTTP_201_CREATED)
 
 
 
@@ -51,14 +51,27 @@ class PackageList(generics.ListAPIView,
 class LocationList(generics.ListAPIView,
                    mixins.CreateModelMixin,
                    mixins.ListModelMixin):
+  queryset = Location.objects.all()
+  serializer_class = LocationSerializer
+
   def post(self, request, user_id):
-    loaction = LocationSerializer(data=request.data)
-    if not location.is_valid():
+    serializer = LocationSerializer(data=request.data)
+    if not serializer.is_valid():
       return Response(location.errors, status=status.HTTP_400_BAD_REQUEST)
-    location.save()
+    location = serializer.save()
     user = User.objects.get(id=user_id)
-    user.locations.at(location)
+    user.locations.add(location)
     user.save()
+    
+    if user.type=='deliverer':
+      packages = Package.objects.all()
+      for pack in packages:
+        """
+        Get home address of purchaser
+        """
+        purchaser = pack.purchaser
+        address = Address.object.get(user=purchaser);
+#        location.distance_to(
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
