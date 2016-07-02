@@ -50,6 +50,8 @@ class Package(models.Model):
   deliverer = models.ForeignKey(User, related_name='pac_deliverer', on_delete=models.CASCADE)
   purchaser = models.ForeignKey(User, related_name='pac_purchaser', on_delete=models.CASCADE)
   recipient = models.ForeignKey(User, related_name='pac_recipient', on_delete=models.CASCADE, null=True)
+  sender = models.CharField(max_length=255, default=None, null=True)
+  mins_until_delivery = models.FloatField(default=None, null=True)
   status = models.CharField(max_length=31, choices=STATUS_CHOICES, default=STATUS_OPEN)
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
