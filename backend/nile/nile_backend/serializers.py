@@ -1,5 +1,11 @@
 from rest_framework import serializers
 
+class LocationSerializer(serializers.Serializer):	
+    id = serializers.IntegerField()
+    lat = serializers.DecimalField(max_digits=13, decimal_places=10)
+    lng = serializers.DecimalField(max_digits=13, decimal_places=10)
+    created_at = serializers.DateTimeField()
+    updated_at = serializers.DateTimeField()
 
 class UserSerializer(serializers.Serializer):
     id = serializers.IntegerField()
