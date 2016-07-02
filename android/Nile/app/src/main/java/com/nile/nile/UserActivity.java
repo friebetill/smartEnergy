@@ -2,6 +2,7 @@ package com.nile.nile;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,12 +15,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
+
 public class UserActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+
 
         String json =
         "["
@@ -59,6 +64,8 @@ public class UserActivity extends AppCompatActivity {
 
             layout.addView(textView);
         }
+
+        Log.d("TOKEN",FirebaseInstanceId.getInstance().getToken());
 
     }
 
