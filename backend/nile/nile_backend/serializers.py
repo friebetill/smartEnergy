@@ -20,7 +20,15 @@ class AddressSerializer(serializers.Serializer):
     postcode = serializers.CharField(max_length=31)
     city = serializers.CharField(max_length=255)
     country = serializers.CharField(max_length=255)
-    floor = serializers.PositiveIntergerField()
+    floor = serializers.IntegerField()
+    created_at = serializers.DateTimeField()
+    updated_at = serializers.DateTimeField()
+
+class FavoriteSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    owner = UserSerializer()
+    favorite = UserSerializer()
+    priority = serializers.IntegerField()
     created_at = serializers.DateTimeField()
     updated_at = serializers.DateTimeField()
 
