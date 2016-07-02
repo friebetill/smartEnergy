@@ -24,6 +24,14 @@ class AddressSerializer(serializers.Serializer):
     created_at = serializers.DateTimeField()
     updated_at = serializers.DateTimeField()
 
+class FavoriteSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    owner = UserSerializer()
+    favorite = UserSerializer()
+    priority = serializers.PositiveIntergerField()
+    created_at = serializers.DateTimeField()
+    updated_at = serializers.DateTimeField()
+
 
 class PackageSerializer(serializers.Serializer):
     id = serializers.IntegerField()
