@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^packages/$', views.PackageList.as_view()),
     url(r'^users/(?P<user_id>.+)/packages/$', views.PackageList.as_view()),
     url(r'^users/(?P<user_id>.+)/store_token/$', views.UserList.as_view()),
+    url(r'^users/(?P<user_id>.+)/locations/$', views.LocationList.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
