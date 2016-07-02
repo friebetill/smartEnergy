@@ -13,6 +13,9 @@ class Location(models.Model):
     """
     return haversine(this.lng, this.lat, other.lng, other.lat)
 
+  def __str__(self):
+    return '(lat=%s, lng=%s)' % (self.lat, self.lng)
+
 class User(models.Model):
   USER_CLIENT = 'client'
   USER_DELIVERER = 'deliverer'
@@ -23,6 +26,9 @@ class User(models.Model):
   locations = models.ManyToManyField(Location)
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
+
+  def __str__(self):
+    return '%s, %s (has token: %r)' % (self.name, self.type, self.token != None)
 
 class Address(models.Model):
   user = models.ForeignKey(User, on_delete=models.CASCADE)
