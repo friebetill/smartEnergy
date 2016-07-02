@@ -13,9 +13,25 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
+from rest_framework import routers, serializers, viewsets
+from rest_framework.parsers import JSONParser
+from nile_backend.models import Location, User, Address, Favorite, Package
+from rest_framework.urlpatterns import format_suffix_patterns
+from nile_backend import views
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^users/$', views.UserList.as_view()),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
+
+# class PackageSerializer(serializers.Serializer):
+#    id = serializers.IntegerField(readOnly=true)
+    # deliverer = serializers.
+#    name = serializers.CharField(max_length=200)
+
