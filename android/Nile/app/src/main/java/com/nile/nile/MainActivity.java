@@ -1,7 +1,9 @@
 package com.nile.nile;
 
+import android.location.Location;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +18,6 @@ import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.search.Address;
 import com.here.android.mpa.search.ErrorCode;
 import com.here.android.mpa.search.GeocodeRequest;
-import com.here.android.mpa.search.Location;
 import com.here.android.mpa.search.ResultListener;
 import com.here.android.mpa.search.ReverseGeocodeRequest;
 
@@ -27,12 +28,25 @@ import com.nile.nile.service.ReverseGeoCodeListener;
 
 public class MainActivity extends AppCompatActivity {
 
+    private double mLatitude;
+    private double mLongitude;
+
+    GPSTracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mTracker = new GPSTracker(this);
+        if(mTracker.canGetLocation()) {
+            mLatitude = mTracker.getLatitude();
+            mLongitude = mTracker.getLongitude();
+        } else {
+            mTracker.showSettingsAlert();
+        }
+        Toast.makeText(getApplicationContext(),"Current location: Latitude: " + mLatitude + "\n" + "Longitude: " + mLongitude, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -59,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
     /** Called when the user clicks the User button */
     public void setUserView(View view) {
-        Intent intent = new Intent(this, UserActivity.class);
+        Intent intent = new Intent(this, UserRegisterActivity.class);
         startActivity(intent);
     }
 

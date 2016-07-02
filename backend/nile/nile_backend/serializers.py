@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from nile_backend.models import User
+from nile_backend.models import *
 
 class LocationSerializer(serializers.Serializer):	
     id = serializers.IntegerField(required=False)
@@ -14,7 +14,7 @@ class LocationSerializer(serializers.Serializer):
 class UserSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     name = serializers.CharField(max_length=255)
-    token = serializers.CharField(max_length=255)
+    token = serializers.CharField(max_length=255, required=False)
     type = serializers.CharField(max_length=31)
     created_at = serializers.DateTimeField(required=False)
     updated_at = serializers.DateTimeField(required=False)

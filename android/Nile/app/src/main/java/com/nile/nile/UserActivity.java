@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.nile.nile.model.NilePackage;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;

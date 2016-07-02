@@ -1,4 +1,4 @@
-package com.nile.nile;
+package com.nile.nile.model;
 
 /**
  * Created by rieke on 02.07.16.
