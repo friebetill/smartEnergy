@@ -10,7 +10,7 @@ from rest_framework import status
 def index(request):
   return HttpResponse("Hello, world. You're at the polls index.")
 
-class Users(APIView):
+class UserList(APIView):
   def get(self, request, format=None):
     users = User.objects.all()
     serializer = UserSerializer(users, many=True)

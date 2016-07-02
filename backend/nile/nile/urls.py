@@ -15,24 +15,23 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from django.contrib.auth.models import User
-from rest_framework import routers, serializers, viewsets,
+from rest_framework import routers, serializers, viewsets
 from rest_framework.parsers import JSONParser
-from nile_backend import Location, User, Address, Favorite, Package
+from nile_backend.models import Location, User, Address, Favorite, Package
+from rest_framework.urlpatterns import format_suffix_patterns
+from nile_backend import views
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^users/$', views.UserList.as_view()),
 ]
 
-class UserSerializer(serializers.Serializer):
-    id = serializers.IntegerField(readOnly=true)
-    name = serializers.CharField(max_length=255)
-    created_at = serialize.DateTimeField()
-    updated_at = serialize.DateTimeField()
+urlpatterns = format_suffix_patterns(urlpatterns)
 
-"class PackageSerializer(serializers.Serializer):
-    id = serializers.IntegerField(readOnly=true)
-    deliverer = serializers.
-    name = serializers.CharField(max_length=200)
-"
+# class PackageSerializer(serializers.Serializer):
+#    id = serializers.IntegerField(readOnly=true)
+    # deliverer = serializers.
+#    name = serializers.CharField(max_length=200)
+
