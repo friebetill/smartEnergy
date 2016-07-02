@@ -2,16 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nile.nile">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
+        android:debuggable="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:debuggable="true"
-
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
@@ -19,11 +18,20 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data android:name="com.here.android.maps.appid" android:value="B9QJZsPfssIpweFn1ey0"/>
-        <meta-data android:name="com.here.android.maps.apptoken" android:value="Rrz4x9RA7f6b4TGvMwVOaA"/>
+        <activity android:name=".UserActivity" />
+        <activity android:name=".DelivererActivity" />
+        <activity android:name=".UserRegisterActivity"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
+
+    <meta-data android:name="com.here.android.maps.appid" android:value="BdJCV1gAjGDkP2dixWRu"/>
+    <meta-data android:name="com.here.android.maps.apptoken" android:value="MV0PdJIEhcOYveK3eILRUA"/>
 
 </manifest>
