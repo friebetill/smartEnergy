@@ -46,3 +46,21 @@ class PackageList(generics.ListAPIView,
 
   # def get(self, request, *args, **kwargs):
     # return self.list(request, *args, **kwargs)
+
+
+class LocationList(generics.ListAPIView,
+                   mixins.CreateModelMixin,
+                   mixins.ListModelMixin):
+  def post(self, request, user_id):
+    loaction = LocationSerializer(data=request.data)
+    if not location.is_valid():
+      return Response(location.errors, status=status.HTTP_400_BAD_REQUEST)
+    location.save()
+    user = User.objects.get(id=user_id)
+    user.locations.at(location)
+    user.save()
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+    
