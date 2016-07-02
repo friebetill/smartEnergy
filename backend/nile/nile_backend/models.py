@@ -28,6 +28,8 @@ class Favorite(models.Model):
   owner = models.ForeignKey(User, related_name='fav_owner', on_delete=models.CASCADE)
   favorite = models.ForeignKey(User, related_name='fav_favorite', on_delete=models.CASCADE)
   priority = models.PositiveIntegerField(default=0)
+  created_at = models.DateTimeField(auto_now_add=True)
+  updated_at = models.DateTimeField(auto_now=True)
 
 class Package(models.Model):
 
@@ -41,3 +43,5 @@ class Package(models.Model):
   purchaser = models.ForeignKey(User, related_name='pac_purchaser', on_delete=models.CASCADE)
   recipient = models.ForeignKey(User, related_name='pac_recipient', on_delete=models.CASCADE)
   status = models.CharField(max_length=31, choices=STATUS_CHOICES, default=STATUS_OPEN)
+  created_at = models.DateTimeField(auto_now_add=True)
+  updated_at = models.DateTimeField(auto_now=True)
