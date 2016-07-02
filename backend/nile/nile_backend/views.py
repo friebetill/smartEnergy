@@ -29,9 +29,6 @@ class UserList(APIView):
     user.save()
     return Response( status=status.HTTP_201_CREATED)
 
-
-
-
 class PackageList(generics.ListAPIView,
                   mixins.CreateModelMixin,
                   mixins.ListModelMixin):
@@ -43,10 +40,6 @@ class PackageList(generics.ListAPIView,
       user_id = self.kwargs['user_id']
       return Package.objects.filter(purchaser__id=user_id)
     return Package.objects.all()
-
-  # def get(self, request, *args, **kwargs):
-    # return self.list(request, *args, **kwargs)
-
 
 class LocationList(generics.ListAPIView,
                    mixins.CreateModelMixin,
@@ -77,6 +70,13 @@ class LocationList(generics.ListAPIView,
           pass
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+class LastLocationList(generics.ListAPIView,
+                       mixins.CreateModelMixin,
+                       mixins.ListModelMixin):
+  serializer_class = LocationSerializer
 
+  def get(self, request, user_id):
+    latest_location = Location.objects.last()
+    serializer = LocationSerializer(latest_location, many=False)
+    return Response(serializer.data)
 
-    
