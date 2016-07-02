@@ -10,12 +10,29 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
+
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * Created by Felix on 02.07.16.
@@ -39,7 +56,7 @@ public class GPSTracker extends Service implements LocationListener {
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 1 meters
 
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 5 minute
 
     // Declaring a Location Manager
     protected LocationManager locationManager;
@@ -163,6 +180,16 @@ public class GPSTracker extends Service implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         Log.i("Message: ","Location changed, " + location.getAccuracy() + " , " + location.getLatitude()+ "," + location.getLongitude());
+        JSONObject newLocation = new JSONObject();
+        try {
+            newLocation.put("lat", location.getLatitude());
+            newLocation.put("lng", location.getLongitude());
+            JSONTask postTask = new JSONTask();
+            postTask.execute(String.valueOf(newLocation));
+
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
@@ -181,4 +208,78 @@ public class GPSTracker extends Service implements LocationListener {
     public IBinder onBind(Intent arg0) {
         return null;
     }
+
+   private class JSONTask extends AsyncTask<String, Void, String> {
+
+       private final String apiEndPoint = "http://54.93.34.46/users/";
+
+       @Override
+       protected String doInBackground(String... params) {
+           String jsonData = params[0];
+           String jsonResponse = null;
+           HttpURLConnection urlConnection = null;
+           BufferedReader reader = null;
+
+           try {
+               URL url = new URL(apiEndPoint + "1/locations/");
+               urlConnection = (HttpURLConnection) url.openConnection();
+               urlConnection.setDoOutput(true);
+               urlConnection.setRequestMethod("POST");
+               urlConnection.setRequestProperty("Content-Type", "application/json");
+               urlConnection.setRequestProperty("Accept", "application/json");
+               urlConnection.connect();
+
+
+               Writer writer = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8"));
+               writer.write(jsonData);
+               writer.close();
+               /*
+               OutputStream os = urlConnection.getOutputStream();
+               os.write(jsonData.getBytes());
+               os.flush();
+               os.close(); */
+
+               int responseCode = urlConnection.getResponseCode();
+               Log.d("URL CODE", "" + responseCode);
+
+               InputStream inputStream;
+               if(urlConnection.getResponseCode() / 100 == 2) {
+                   inputStream = urlConnection.getInputStream();
+               } else {
+                   inputStream = urlConnection.getErrorStream();
+               }
+               StringBuffer buffer = new StringBuffer();
+               if (inputStream == null) {
+                   // Nothing to do.
+                   return null;
+               }
+               reader = new BufferedReader(new InputStreamReader(inputStream));
+               String inputLine;
+               while ((inputLine = reader.readLine()) != null)
+                   buffer.append(inputLine + "\n");
+               if (buffer.length() == 0) {
+                   // Stream was empty. No point in parsing.
+                   return null;
+               }
+               jsonResponse = buffer.toString();
+               Log.i("JSON RESPONSE", jsonResponse);
+
+               return jsonResponse;
+           } catch (IOException ex) {
+               ex.printStackTrace();
+           } finally {
+               if(urlConnection != null) {
+                   urlConnection.disconnect();
+               }
+               if(reader != null) {
+                   try {
+                       reader.close();
+                   } catch (final IOException ex ) {
+                       Log.e("EXCEPTION", "Error closing stream", ex);
+                   }
+               }
+           }
+           return null;
+       }
+   }
 }

@@ -2,6 +2,8 @@ package com.nile.nile.api;
 
 import android.util.Log;
 
+import com.here.android.mpa.search.Location;
+
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -56,5 +58,7 @@ public class ApiCall {
         is.close();
         return sb.toString();
     }
+
+
 }
 
