@@ -1,10 +1,17 @@
 from django.db import models
+from nile_backend.utils import haversine
 
 class Location(models.Model):
   lat = models.DecimalField(max_digits=13, decimal_places=10)
   lng = models.DecimalField(max_digits=13, decimal_places=10)
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
+
+  def distance_to(other):
+    """
+    Returns the distance to the given location in kilometers.
+    """
+    return haversine(this.lng, this.lat, other.lng, other.lat)
 
 class User(models.Model):
   name = models.CharField(max_length=255)
@@ -41,7 +48,7 @@ class Package(models.Model):
 
   deliverer = models.ForeignKey(User, related_name='pac_deliverer', on_delete=models.CASCADE)
   purchaser = models.ForeignKey(User, related_name='pac_purchaser', on_delete=models.CASCADE)
-  recipient = models.ForeignKey(User, related_name='pac_recipient', on_delete=models.CASCADE)
+  recipient = models.ForeignKey(User, related_name='pac_recipient', on_delete=models.CASCADE, null=True)
   status = models.CharField(max_length=31, choices=STATUS_CHOICES, default=STATUS_OPEN)
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
