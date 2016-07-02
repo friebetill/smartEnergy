@@ -13,6 +13,18 @@ class UserSerializer(serializers.Serializer):
     created_at = serializers.DateTimeField()
     updated_at = serializers.DateTimeField()
 
+class AddressSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    location = LocationSerializer()
+    name = serializers.CharField(max_length=255)
+    postcode = serializers.CharField(max_length=31)
+    city = serializers.CharField(max_length=255)
+    country = serializers.CharField(max_length=255)
+    floor = serializers.PositiveIntergerField()
+    created_at = serializers.DateTimeField()
+    updated_at = serializers.DateTimeField()
+
+
 class PackageSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     deliverer = UserSerializer()
