@@ -57,6 +57,7 @@ class PackageSerializer(serializers.Serializer):
     created_at = serializers.DateTimeField(required=False)
     updated_at = serializers.DateTimeField(required=False)
     mins_until_delivery = serializers.FloatField(max_value=None, min_value=None, required=False, allow_null=True)
+    sender = serializers.CharField(max_length=255, required=False)
 
     def create(self, validated_data):
       return Package.objects.create(**validated_data)
