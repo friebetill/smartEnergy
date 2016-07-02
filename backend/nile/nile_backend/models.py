@@ -1,5 +1,6 @@
 from django.db import models
 from nile_backend.utils import haversine
+from haversine import haversine
 
 class Location(models.Model):
   lat = models.DecimalField(max_digits=13, decimal_places=10)
@@ -7,11 +8,11 @@ class Location(models.Model):
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
 
-  def distance_to(other):
+  def distance_to(self, other):
     """
     Returns the distance to the given location in kilometers.
     """
-    return haversine(this.lng, this.lat, other.lng, other.lat)
+    return haversine((self.lng, self.lat),(other.lng, other.lat))
 
 class User(models.Model):
   USER_CLIENT = 'client'

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from nile_backend.models import *
 
+
 class LocationSerializer(serializers.Serializer):	
     id = serializers.IntegerField(required=False)
     lat = serializers.DecimalField(max_digits=13, decimal_places=10)
@@ -55,6 +56,7 @@ class PackageSerializer(serializers.Serializer):
     status = serializers.CharField(max_length=31, required=False)
     created_at = serializers.DateTimeField(required=False)
     updated_at = serializers.DateTimeField(required=False)
+    mins_until_delivery = serializers.FloatField(max_value=None, min_value=None, required=False, allow_null=True)
 
     def create(self, validated_data):
       return Package.objects.create(**validated_data)

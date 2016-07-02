@@ -66,12 +66,15 @@ class LocationList(generics.ListAPIView,
     if user.type=='deliverer':
       packages = Package.objects.all()
       for pack in packages:
-        """
-        Get home address of purchaser
-        """
+       # Get home address of purchaser
         purchaser = pack.purchaser
-        address = Address.object.get(user=purchaser);
-#        location.distance_to(
+        address = None
+        try:
+          address = Address.objects.get(user=purchaser)
+          distance = location.distance_to(address.location)
+          print(distance)
+        except Address.DoesNotExist:
+          pass
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
