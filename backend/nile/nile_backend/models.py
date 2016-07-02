@@ -23,3 +23,21 @@ class Address(models.Model):
   floor = models.PositiveIntegerField(default=0)
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
+
+class Favorite(models.Model):
+  owner = models.ForeignKey(User, related_name='fav_owner', on_delete=models.CASCADE)
+  favorite = models.ForeignKey(User, related_name='fav_favorite', on_delete=models.CASCADE)
+  priority = models.PositiveIntegerField(default=0)
+
+class Package(models.Model):
+
+  STATUS_OPEN = 'open'
+  STATUS_RESOLVED_RECIPIENT = 'resolve_recipient'
+  STATUS_DELIVERED = 'delivered'
+  STATUS_RETURNED = 'returned'
+  STATUS_CHOICES = ((STATUS_OPEN, 'Open'), (STATUS_RESOLVED_RECIPIENT, 'Resolved recipient'), (STATUS_DELIVERED, 'delivered'), (STATUS_RETURNED, 'returned'))
+
+  deliverer = models.ForeignKey(User, related_name='pac_deliverer', on_delete=models.CASCADE)
+  purchaser = models.ForeignKey(User, related_name='pac_purchaser', on_delete=models.CASCADE)
+  recipient = models.ForeignKey(User, related_name='pac_recipient', on_delete=models.CASCADE)
+  status = models.CharField(max_length=31, choices=STATUS_CHOICES, default=STATUS_OPEN)
