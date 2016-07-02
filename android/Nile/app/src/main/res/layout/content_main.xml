@@ -15,10 +15,19 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Show Location"
-        android:id="@+id/btnLocation"
+        android:text="User"
+        android:id="@+id/buttonUser"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="206dp" />
+        android:onClick="setUserView" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deliverer"
+        android:id="@+id/buttonDeliverer"
+        android:layout_below="@+id/buttonUser"
+        android:layout_alignStart="@+id/buttonUser"
+        android:onClick="setDelivererView" />
 
 </RelativeLayout>

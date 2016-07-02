@@ -1,5 +1,6 @@
 package com.nile.nile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -26,51 +27,12 @@ import com.nile.nile.service.ReverseGeoCodeListener;
 
 public class MainActivity extends AppCompatActivity {
 
-    private double mLatitude;
-    private double mLongitude;
-    GPSTracker mTracker;
-
-    Button btnShowLocation;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mTracker = new GPSTracker(this);
-        if(mTracker.canGetLocation()) {
-            mLatitude = mTracker.getLatitude();
-            mLongitude = mTracker.getLongitude();
-        } else {
-            mTracker.showSettingsAlert();
-        }
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Latitude: " + mLatitude + " Longitude: " + mLongitude, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
-            }
-        });
-
-        btnShowLocation = (Button) findViewById(R.id.btnLocation);
-        btnShowLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mLatitude = mTracker.getLatitude();
-                mLongitude = mTracker.getLongitude();
-                GeoCoordinate currentLocation = new GeoCoordinate(mLatitude, mLongitude);
-                ResultListener<Address> listener = new ReverseGeoCodeListener();
-                ReverseGeocodeRequest request = new ReverseGeocodeRequest(currentLocation);
-                
-                Toast.makeText(getApplicationContext(), "Current location is: \n Lat: " + mLatitude + " \n Long: " + mLongitude, Toast.LENGTH_LONG).show();
-            }
-        });
-
     }
 
     @Override
@@ -93,5 +55,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /** Called when the user clicks the User button */
+    public void setUserView(View view) {
+        Intent intent = new Intent(this, UserActivity.class);
+        startActivity(intent);
+    }
+
+    /** Called when the user clicks the User button */
+    public void setDelivererView(View view) {
+        Intent intent = new Intent(this, DelivererActivity.class);
+        startActivity(intent);
     }
 }
