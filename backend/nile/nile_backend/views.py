@@ -35,16 +35,3 @@ class PackageList(generics.ListAPIView,
 
   def get(self, request, *args, **kwargs):
     return self.list(request, *args, **kwargs)
-
-# class PackageList(APIView):
-  # def get(self, request, format=None):
-    # packages = Package.objects.all()
-    # serializer = PackageSerializer(packages, many=True)
-    # return Response(serializer.data)
-
-  # def post(self, request, format=None):
-    # serializer = PackageSerializer(data=request.data)
-    # if serializer.is_valid():
-      # serializer.save()
-      # return Response(serializer.data, status=status.HTTP_201_CREATED)
-    # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
