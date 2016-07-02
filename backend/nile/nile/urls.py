@@ -15,9 +15,24 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.auth.models import User
+from rest_framework import routers, serializers, viewsets,
+from rest_framework.parsers import JSONParser
+from nile_backend import Location, User, Address, Favorite, Package
 
 urlpatterns = [
-    url(r'^backend/', include('nile_backend.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
+
+class UserSerializer(serializers.Serializer):
+    id = serializers.IntegerField(readOnly=true)
+    name = serializers.CharField(max_length=255)
+    created_at = serialize.DateTimeField()
+    updated_at = serialize.DateTimeField()
+
+"class PackageSerializer(serializers.Serializer):
+    id = serializers.IntegerField(readOnly=true)
+    deliverer = serializers.
+    name = serializers.CharField(max_length=200)
+"
