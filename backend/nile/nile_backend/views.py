@@ -50,7 +50,7 @@ class LocationList(generics.ListAPIView,
   def post(self, request, user_id):
     serializer = LocationSerializer(data=request.data)
     if not serializer.is_valid():
-      return Response(location.errors, status=status.HTTP_400_BAD_REQUEST)
+      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     location = serializer.save()
     user = User.objects.get(id=user_id)
     user.locations.add(location)
