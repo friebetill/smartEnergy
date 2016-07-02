@@ -1,7 +1,7 @@
 package com.nile.nile;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,16 +21,41 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
-        String orderedItems = excutePost("", "");
+        String json =
+            "[{"
+                + "'id': '1',"
+                + "'deliver_id' : 1,"
+                + "'purchase_id' : '1',"
+                + "'recipient_id' : '1',"
+                + "'sender' : 'Amazon',"
+                + "'status' : 'Open',"
+                + "'estimatedDeliveryTime' : '15.0'"
+                + "},{"
+                + "'id': '1',"
+                + "'deliver_id' : 1,"
+                + "'purchase_id' : '1',"
+                + "'recipient_id' : '1',"
+                + "'sender' : 'Zalando',"
+                + "'status' : 'Open',"
+                + "'estimatedDeliveryTime' : '2.0'"
+                + "}]";
 
-        //Data data = new Gson().fromJson(orderedItems, Data.class);
-
-        TextView textView = new TextView(this);
-        textView.setTextSize(25);
-        textView.setText("Amazon 15m");
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.LinearLayout1);
-        layout.addView(textView);
+
+        //String orderedItems = excutePost("", "");
+
+        //NilePackage[] packages = new Gson().fromJson(orderedItems, NilePackage[].class);
+        NilePackage[] packages = new Gson().fromJson(json, NilePackage[].class);
+
+        for(int i = 0; i < packages.length; i++){
+            TextView textView = new TextView(this);
+            textView.setTextSize(25);
+            textView.setText(packages[i].getSender() + " " + (int) packages[i].getEstimatedDeliveryTime() + "m");
+
+            layout.addView(textView);
+        }
+
     }
 
     public String excutePost(String targetURL, String urlParameters) {
