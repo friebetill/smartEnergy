@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Nile</string>
     <string name="action_settings">Settings</string>
+
+    <!--Text view strings -->
+    <string name="location">Location</string>
 </resources>
