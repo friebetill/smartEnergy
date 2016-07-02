@@ -8,8 +8,29 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.here.android.mpa.common.GeoCoordinate;
+import com.here.android.mpa.search.Address;
+import com.here.android.mpa.search.ErrorCode;
+import com.here.android.mpa.search.GeocodeRequest;
+import com.here.android.mpa.search.Location;
+import com.here.android.mpa.search.ResultListener;
+import com.here.android.mpa.search.ReverseGeocodeRequest;
+
+import com.nile.nile.service.GPSTracker;
+import com.nile.nile.service.ReverseGeoCodeListener;
+
+
 
 public class MainActivity extends AppCompatActivity {
+
+    private double mLatitude;
+    private double mLongitude;
+    GPSTracker mTracker;
+
+    Button btnShowLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,15 +38,39 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mTracker = new GPSTracker(this);
+        if(mTracker.canGetLocation()) {
+            mLatitude = mTracker.getLatitude();
+            mLongitude = mTracker.getLongitude();
+        } else {
+            mTracker.showSettingsAlert();
+        }
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Latitude: " + mLatitude + " Longitude: " + mLongitude, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
             }
         });
+
+        btnShowLocation = (Button) findViewById(R.id.btnLocation);
+        btnShowLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLatitude = mTracker.getLatitude();
+                mLongitude = mTracker.getLongitude();
+                GeoCoordinate currentLocation = new GeoCoordinate(mLatitude, mLongitude);
+                ResultListener<Address> listener = new ReverseGeoCodeListener();
+                ReverseGeocodeRequest request = new ReverseGeocodeRequest(currentLocation);
+                
+                Toast.makeText(getApplicationContext(), "Current location is: \n Lat: " + mLatitude + " \n Long: " + mLongitude, Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     @Override
