@@ -28,6 +28,7 @@ class Address(models.Model):
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   location = models.ForeignKey(Location, on_delete=models.CASCADE)
   name = models.CharField(max_length=255)
+  street = models.CharField(max_length=255)
   postcode = models.CharField(max_length=31)
   city = models.CharField(max_length=255)
   country = models.CharField(max_length=255)
