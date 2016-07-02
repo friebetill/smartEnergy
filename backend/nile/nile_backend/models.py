@@ -8,6 +8,7 @@ class Location(models.Model):
 
 class User(models.Model):
   name = models.CharField(max_length=255)
+  token = models.CharField(max_length=255, default=None, null=True)
   # type = models.CharField(max_length=255)
   locations = models.ManyToManyField(Location)
   created_at = models.DateTimeField(auto_now_add=True)
