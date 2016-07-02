@@ -1,6 +1,8 @@
 package com.nile.nile;
 
+import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +17,6 @@ import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.search.Address;
 import com.here.android.mpa.search.ErrorCode;
 import com.here.android.mpa.search.GeocodeRequest;
-import com.here.android.mpa.search.Location;
 import com.here.android.mpa.search.ResultListener;
 import com.here.android.mpa.search.ReverseGeocodeRequest;
 
@@ -28,9 +29,13 @@ public class MainActivity extends AppCompatActivity {
 
     private double mLatitude;
     private double mLongitude;
-    GPSTracker mTracker;
 
+   
+
+    GPSTracker mTracker;
     Button btnShowLocation;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +51,12 @@ public class MainActivity extends AppCompatActivity {
             mTracker.showSettingsAlert();
         }
 
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Latitude: " + mLatitude + " Longitude: " + mLongitude, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-
             }
         });
 
@@ -63,11 +66,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mLatitude = mTracker.getLatitude();
                 mLongitude = mTracker.getLongitude();
-                GeoCoordinate currentLocation = new GeoCoordinate(mLatitude, mLongitude);
-                ResultListener<Address> listener = new ReverseGeoCodeListener();
-                ReverseGeocodeRequest request = new ReverseGeocodeRequest(currentLocation);
-                
                 Toast.makeText(getApplicationContext(), "Current location is: \n Lat: " + mLatitude + " \n Long: " + mLongitude, Toast.LENGTH_LONG).show();
+
             }
         });
 
