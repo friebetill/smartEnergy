@@ -30,6 +30,13 @@ class UserList(APIView):
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+   def put(self, request, format=None):
+    serializer = UserSerializer(data=request.data)
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 
@@ -39,9 +46,11 @@ class PackageList(generics.ListAPIView,
   queryset = Package.objects.all()
   serializer_class = PackageSerializer
 
-  # def get_queryset(self):
-    # username = self.kwargs['username']
-    # pass
+  def get_queryset(self):
+    if 'user_id' in self.kwargs:
+      user_id = self.kwargs['user_id']
+      return Package.objects.filter(purchaser__id=user_id)
+    return Package.objects.all()
 
-  def get(self, request, *args, **kwargs):
-    return self.list(request, *args, **kwargs)
+  # def get(self, request, *args, **kwargs):
+    # return self.list(request, *args, **kwargs)
