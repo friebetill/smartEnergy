@@ -1,16 +1,10 @@
 package com.nile.nile;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
-
-import com.nile.nile.service.GPSTracker;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -25,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = this.getSharedPreferences("Share", Context.MODE_PRIVATE);
         int userID = pref.getInt("isUser", -1);
         if(userID == 1) {
-            Intent intent = new Intent(this, UserRegisterActivity.class);
+            Intent intent = new Intent(this, UserAddAddressActivity.class);
             startActivity(intent);
         } else if (userID == 0) {
             Intent intent = new Intent(this, DelivererActivity.class);
@@ -58,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (isUser == 1){
             Intent intent;
             if(currentID == -1){
-                intent = new Intent(this, UserRegisterActivity.class);
+                intent = new Intent(this, UserAddAddressActivity.class);
             } else {
                 intent = new Intent(this, UserActivity.class);
             }
@@ -82,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         intent = new Intent(this, UserRegisterActivity.class);
         /*
         if(currentID == -1){
-            intent = new Intent(this, UserRegisterActivity.class);
+            intent = new Intent(this, UserAddAddressActivity.class);
         } else {
             intent = new Intent(this, UserActivity.class);
         }
@@ -107,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addAddress(View view) {
-        Intent intent = new Intent(this, UserRegisterActivity.class);
+        Intent intent = new Intent(this, UserAddAddressActivity.class);
         startActivity(intent);
     }
 }

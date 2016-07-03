@@ -15,39 +15,39 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="User"
+        android:text="Create User"
         android:id="@+id/buttonUser"
+        android:onClick="setUserView"
+        android:layout_marginTop="49dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="setUserView" />
+        android:layout_alignEnd="@+id/btnAddress" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Deliverer"
+        android:text="Create Deliverer"
         android:id="@+id/buttonDeliverer"
-        android:layout_below="@+id/buttonUser"
-        android:layout_alignStart="@+id/buttonUser"
-        android:onClick="setDelivererView" />
+        android:onClick="setDelivererView"
+        android:layout_alignTop="@+id/buttonUser"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="START DELIVER"
         android:id="@+id/button"
-        android:layout_marginTop="183dp"
-        android:layout_below="@+id/buttonDeliverer"
-        android:layout_centerHorizontal="true"
-        android:onClick="startDeliver"/>
+        android:onClick="startDeliver"
+        android:layout_alignTop="@+id/btnAddress"
+        android:layout_alignStart="@+id/buttonDeliverer" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Address"
         android:id="@+id/btnAddress"
-        android:layout_alignBottom="@+id/button"
-        android:layout_alignStart="@+id/button"
-        android:layout_marginBottom="72dp"
-        android:onClick="addAddress"/>
+        android:onClick="addAddress"
+        android:layout_below="@+id/buttonUser"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="71dp" />
 
 </RelativeLayout>

@@ -33,7 +33,7 @@
         </activity>
         <activity android:name=".UserActivity" />
         <activity android:name=".DelivererActivity" />
-        <activity android:name=".UserRegisterActivity" />
+        <activity android:name=".UserAddAddressActivity" />
 
         <service android:name=".service.MyFirebaseMessagingService">
             <intent-filter>
@@ -46,7 +46,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".DelivererRegisterActivity"></activity>
+        <activity android:name=".DelivererRegisterActivity" />
+        <activity android:name=".UserRegisterActivity"></activity>
     </application>
 
 </manifest>
