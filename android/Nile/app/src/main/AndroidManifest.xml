@@ -4,14 +4,10 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <meta-data
-        android:name="com.here.android.maps.appid"
-        android:value="BdJCV1gAjGDkP2dixWRu" />
-    <meta-data
-        android:name="com.here.android.maps.apptoken"
-        android:value="MV0PdJIEhcOYveK3eILRUA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -50,8 +46,8 @@
         <activity android:name=".UserRegisterActivity" />
         <activity android:name=".MapActivity"></activity>
 
-        <meta-data android:name="com.here.android.maps.appid" android:value="BdJCV1gAjGDkP2dixWRu"/>
-        <meta-data android:name="com.here.android.maps.apptoken" android:value="MV0PdJIEhcOYveK3eILRUA"/>
+        <meta-data android:name="com.here.android.maps.appid" android:value="B9QJZsPfssIpweFn1ey0"/>
+        <meta-data android:name="com.here.android.maps.apptoken" android:value="Rrz4x9RA7f6b4TGvMwVOaA"/>
     </application>
 
 </manifest>

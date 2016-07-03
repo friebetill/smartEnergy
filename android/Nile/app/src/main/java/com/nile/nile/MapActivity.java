@@ -2,6 +2,7 @@ package com.nile.nile;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.common.OnEngineInitListener;
@@ -27,10 +28,11 @@ public class MapActivity extends AppCompatActivity {
                 if (error == OnEngineInitListener.Error.NONE) {
                     // now the map is ready to be used
                     map = mapFragment.getMap();
-                    map.setCenter(new GeoCoordinate(49.196261,
-                            -123.004773), Map.Animation.NONE);
+                    map.setCenter(new GeoCoordinate(52.5057059300,
+                            13.3934611800), Map.Animation.NONE);
+                    map.getPositionIndicator().setVisible(true);
                 } else {
-                    System.out.println("ERROR: Cannot initialize MapFragment");
+                    Log.e("ERROR","ERROR: Cannot initialize MapFragment");
                 }
             }
         });
