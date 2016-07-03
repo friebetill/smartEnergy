@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from nile_backend.models import Package, User, Location, Address
-from nile_backend.serializers import UserSerializer, PackageSerializer, LocationSerializer
+from nile_backend.serializers import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics, mixins
@@ -68,6 +68,23 @@ class LocationList(generics.ListAPIView,
           print(distance)
         except Address.DoesNotExist:
           pass
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class AddressList(generics.ListAPIView,
+                  mixins.CreateModelMixin,
+                  mixins.ListModelMixin):
+  queryset = Address.objects.all()
+  serializer_class = AddressSerializer
+
+  def post(self, request, user_id):
+    serializer = AddressSerializer(data=request.data)
+    if not serializer.is_valid():
+      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    try:
+      u = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+      return Response('User does not exist.', status=status.HTTP_400_BAD_REQUEST)
+    serializer.save(user=u)
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class LastLocationList(generics.ListAPIView,

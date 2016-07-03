@@ -35,6 +35,10 @@ class AddressSerializer(serializers.Serializer):
     updated_at = serializers.DateTimeField(required=False)
 
     def create(self, validated_data):
+      location_data = validated_data.pop('location', None)
+      if location_data:
+        location = Location.objects.get_or_create(**location_data)[0]
+      validated_data['location'] = location
       return Address.objects.create(**validated_data)
 
 class FavoriteSerializer(serializers.Serializer):
