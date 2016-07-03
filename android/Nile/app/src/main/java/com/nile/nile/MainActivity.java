@@ -1,13 +1,16 @@
 package com.nile.nile;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.nile.nile.service.GPSTracker;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -18,39 +21,87 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        SharedPreferences pref = this.getSharedPreferences("Share", Context.MODE_PRIVATE);
+        int userID = pref.getInt("isUser", -1);
+        if(userID == 1) {
+            Intent intent = new Intent(this, UserRegisterActivity.class);
+            startActivity(intent);
+        } else if (userID == 0) {
+            Intent intent = new Intent(this, DelivererActivity.class);
+            startActivity(intent);
         }
 
-        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences pref = this.getSharedPreferences("Share", Context.MODE_PRIVATE);
+        int isUser = pref.getInt("isUser", -1);
+        int currentID = pref.getInt("currentID", -1);
+        Log.d("IsUser",String.valueOf(isUser));
+        Log.d("CurrentID",String.valueOf(currentID));
+
+        if(isUser == -1){
+            GPSTracker mTracker = new GPSTracker(this);
+            double mLatitude = 0;
+            double  mLongitude = 0;
+            if(mTracker.canGetLocation()) {
+                mLatitude = mTracker.getLatitude();
+                mLongitude = mTracker.getLongitude();
+            } else {
+                mTracker.showSettingsAlert();
+            }
+            Toast.makeText(getApplicationContext(),"Current location: Latitude: " + mLatitude + "\n" + "Longitude: " + mLongitude, Toast.LENGTH_LONG).show();
+        } else if (isUser == 1){
+            Intent intent;
+            if(currentID == -1){
+                intent = new Intent(this, UserRegisterActivity.class);
+            } else {
+                intent = new Intent(this, UserActivity.class);
+            }
+            startActivity(intent);
+        } else {
+            Intent intent = null;
+            if(currentID == -1){
+                //intent = new Intent(this, DelivererRegisterActivity.class);
+            } else {
+                intent = new Intent(this, DelivererActivity.class);
+            }
+            startActivity(intent);
+        }
     }
 
     /** Called when the user clicks the User button */
     public void setUserView(View view) {
-        Intent intent = new Intent(this, UserRegisterActivity.class);
+        SharedPreferences pref = this.getSharedPreferences("Share", Context.MODE_PRIVATE);
+        int currentID = pref.getInt("currentID", -1);
+
+        Intent intent;
+        if(currentID == -1){
+            intent = new Intent(this, UserRegisterActivity.class);
+        } else {
+            intent = new Intent(this, UserActivity.class);
+        }
+
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putInt("isUser", 1);
+        edit.commit();
+
         startActivity(intent);
     }
 
     /** Called when the user clicks the Deliverer button */
     public void setDelivererView(View view) {
-        Intent intent = new Intent(this, DelivererRegisterActivity.class);
+        Intent intent = new Intent(this, DelivererActivity.class);
+
+        SharedPreferences pref = this.getSharedPreferences("Share", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putInt("isUser", 0);
+        edit.commit();
+
         startActivity(intent);
+
     }
 }

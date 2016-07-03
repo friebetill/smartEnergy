@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -184,7 +185,7 @@ public class GPSTracker extends Service implements LocationListener {
         try {
             newLocation.put("lat", location.getLatitude());
             newLocation.put("lng", location.getLongitude());
-            JSONTask postTask = new JSONTask();
+            JSONTask postTask = new JSONTask(this);
             postTask.execute(String.valueOf(newLocation));
 
         } catch (JSONException ex) {
@@ -211,7 +212,14 @@ public class GPSTracker extends Service implements LocationListener {
 
    private class JSONTask extends AsyncTask<String, Void, String> {
 
+       private Context mContext;
+
        private final String apiEndPoint = "http://54.93.34.46/users/";
+
+       public JSONTask(Context context) {
+           mContext = context;
+       }
+
 
        @Override
        protected String doInBackground(String... params) {
@@ -220,8 +228,11 @@ public class GPSTracker extends Service implements LocationListener {
            HttpURLConnection urlConnection = null;
            BufferedReader reader = null;
 
+           SharedPreferences pref = mContext.getSharedPreferences("Share", Context.MODE_PRIVATE);
+           int userID = pref.getInt("currentID", -1);
+
            try {
-               URL url = new URL(apiEndPoint + "1/locations/");
+               URL url = new URL(apiEndPoint + userID + "/locations/");
                urlConnection = (HttpURLConnection) url.openConnection();
                urlConnection.setDoOutput(true);
                urlConnection.setRequestMethod("POST");
