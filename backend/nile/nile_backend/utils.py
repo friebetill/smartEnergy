@@ -31,7 +31,7 @@ def resolve_recipient(user):
       neighbor = address.user
       neighbor_packages = Package.objects.filter(purchaser=neighbor)
       for pack in neighbor_packages:
-        pur_home = Address.object.get(purchaser=pack.purchaser).location
+        pur_home = Address.objects.get(purchaser=pack.purchaser).location
         if user_at_home:
           if pack.recipient == null:
             pack.recipient = user
