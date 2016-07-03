@@ -30,4 +30,24 @@
         android:layout_alignStart="@+id/buttonUser"
         android:onClick="setDelivererView" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="START DELIVER"
+        android:id="@+id/button"
+        android:layout_marginTop="183dp"
+        android:layout_below="@+id/buttonDeliverer"
+        android:layout_centerHorizontal="true"
+        android:onClick="startDeliver"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Address"
+        android:id="@+id/btnAddress"
+        android:layout_alignBottom="@+id/button"
+        android:layout_alignStart="@+id/button"
+        android:layout_marginBottom="72dp"
+        android:onClick="addAddress"/>
+
 </RelativeLayout>

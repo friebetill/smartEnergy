@@ -13,22 +13,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:hint="Firstname"
+        android:hint="Name"
         android:ems="10"
-        android:id="@+id/tvFirstName"
+        android:id="@+id/tvName"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="39dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="Lastname"
-        android:ems="10"
-        android:id="@+id/tvLastName"
-        android:layout_below="@+id/tvFirstName"
-        android:layout_alignStart="@+id/tvFirstName" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -37,8 +27,8 @@
         android:ems="10"
         android:hint="Address"
         android:id="@+id/tvAddress"
-        android:layout_below="@+id/tvLastName"
-        android:layout_alignStart="@+id/tvLastName" />
+        android:layout_below="@+id/tvName"
+        android:layout_alignStart="@+id/tvName" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -57,8 +47,17 @@
         android:ems="10"
         android:hint="Zip code"
         android:id="@+id/tvZipCode"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/tvHouseNumber"
         android:layout_alignStart="@+id/tvHouseNumber" />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned"
+        android:hint="Floor"
+        android:ems="10"
+        android:id="@+id/tvFloor"
+        android:layout_below="@+id/tvZipCode"
+        android:layout_alignStart="@+id/tvZipCode" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -67,16 +66,18 @@
         android:hint="City"
         android:ems="10"
         android:id="@+id/tvCity"
-        android:layout_below="@+id/tvZipCode"
+        android:layout_below="@+id/tvFloor"
         android:layout_alignStart="@+id/tvZipCode" />
+
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit"
+        android:text="Submit Address"
         android:id="@+id/btnSubmit"
+        android:onClick="createUser"
         android:layout_below="@+id/tvCity"
         android:layout_centerHorizontal="true"
-        android:onClick="createUser"/>
+        android:layout_marginTop="26dp" />
 
 </RelativeLayout>
