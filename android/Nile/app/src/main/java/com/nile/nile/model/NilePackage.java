@@ -9,9 +9,9 @@ public class NilePackage {
     private NileUser deliverer;
     private NileUser purchaser;
     private NileUser recipient;
-    private String sender;
     private String status;
-    private float estimatedDeliveryTime;
+    private String sender;
+    private float mins_until_delivery;
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
@@ -31,8 +31,8 @@ public class NilePackage {
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 
-    public float getEstimatedDeliveryTime() { return estimatedDeliveryTime; }
-    public void setEstimatedDeliveryTime(float estimatedDeliveryTime) {
-        this.estimatedDeliveryTime = estimatedDeliveryTime;
+    public float getMins_until_delivery() { return mins_until_delivery; }
+    public void setMins_until_delivery(float mins_until_delivery) {
+        this.mins_until_delivery = mins_until_delivery;
     }
 }
