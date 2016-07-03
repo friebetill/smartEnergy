@@ -27,6 +27,7 @@ class AddressSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     location = LocationSerializer()
     name = serializers.CharField(max_length=255)
+    street = serializers.CharField(max_length=255)
     postcode = serializers.CharField(max_length=31)
     city = serializers.CharField(max_length=255)
     country = serializers.CharField(max_length=255)
