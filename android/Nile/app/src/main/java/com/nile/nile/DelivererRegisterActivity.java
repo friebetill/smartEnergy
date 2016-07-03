@@ -47,7 +47,6 @@ public class DelivererRegisterActivity extends AppCompatActivity {
             jsonObject.put("token",  FirebaseInstanceId.getInstance().getToken());
             AsynDelivererTask task = new AsynDelivererTask(this);
             task.execute(String.valueOf(jsonObject));
-
         } catch (JSONException ex) {
             ex.printStackTrace();
         }

@@ -1,5 +1,4 @@
 from django.db import models
-from nile_backend.utils import haversine
 from haversine import haversine
 
 class Location(models.Model):

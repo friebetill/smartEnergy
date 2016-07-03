@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.nile.nile.model.NileAddress;
 import com.nile.nile.service.GPSTracker;
+
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,7 +37,7 @@ public class DelivererActivity extends AppCompatActivity {
         } else {
             mTracker.showSettingsAlert();
         }
-        Toast.makeText(getApplicationContext(),"Current location: Latitude: " + mLatitude + "\n" + "Longitude: " + mLongitude, Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Current location: Latitude: " + mLatitude + "\n" + "Longitude: " + mLongitude, Toast.LENGTH_LONG).show();
         LinearLayout layout = (LinearLayout) findViewById(R.id.LinearLayout1);
 
         TextView nextAddr = new TextView(this);
@@ -61,13 +62,13 @@ public class DelivererActivity extends AppCompatActivity {
 
         String json =
                 "["
-                + "{"
-                +"    \"street\": \"Charlottenstraße\","
-                +"    \"number\": 2,"
-                +"    \"zipcode\": 10969,"
-                +"    \"city\": \"Berlin\""
-                +  "}"
-                +"]";
+                        + "{"
+                        + "    \"street\": \"Charlottenstraße\","
+                        + "    \"number\": 2,"
+                        + "    \"zipcode\": 10969,"
+                        + "    \"city\": \"Berlin\""
+                        + "}"
+                        + "]";
 
         //String orderedAddr = excutePost("http://localhost:8000/users/" + userID + "/packages/", "");
 
