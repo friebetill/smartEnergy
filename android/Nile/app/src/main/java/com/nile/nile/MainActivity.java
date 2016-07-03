@@ -5,24 +5,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.nile.nile.service.GPSTracker;
 
+
 public class MainActivity extends AppCompatActivity {
-
-    private double mLatitude;
-    private double mLongitude;
-
-    GPSTracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +31,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d("CurrentID",String.valueOf(currentID));
 
         if(isUser == -1){
-            mTracker = new GPSTracker(this);
+            GPSTracker mTracker = new GPSTracker(this);
+            double mLatitude = 0;
+            double  mLongitude = 0;
             if(mTracker.canGetLocation()) {
                 mLatitude = mTracker.getLatitude();
                 mLongitude = mTracker.getLongitude();

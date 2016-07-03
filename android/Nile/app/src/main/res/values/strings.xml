@@ -4,4 +4,5 @@
 
     <!--Text view strings -->
     <string name="location">Location</string>
+    <string name="title_activity_devliverer_register">DevlivererRegisterActivity</string>
 </resources>
