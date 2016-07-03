@@ -63,6 +63,7 @@ class LocationList(generics.ListAPIView,
     user = User.objects.get(id=user_id)
     user.locations.add(location)
     user.save()
+    print(user.locations.last())
     
     if user.type=='deliverer':
       packages = Package.objects.all()

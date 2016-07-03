@@ -9,7 +9,8 @@ def distance_to_time(distance):
 def request_purchaser(user):
   url = 'https://fcm.googleapis.com/fcm/send'
   to = user.token
-  payload = {"to":to,"notification":{"title":"CheckDisOut","text":"Moin"}}
+  print("Notifying " + user.name + " about package")
+  payload = {"to":to,"notification":{"title":"Deliverer is near your home","text":"A package is availabe you you. Requesting your location"}}
   headers = {"Authorization":"key=AIzaSyAhfw6N9h9j0dGW11Xe_IRaTIK0fsiHwvU","Content-Type":"application/json"}
 
   request = requests.post(url, data=json.dumps(payload), headers=headers)
@@ -27,23 +28,28 @@ def resolve_recipient(user):
   user_awaits_package = Package.objects.filter(purchaser=user).exists()
 
   for address in addresses:  
-    if address.location.distance_to(user_loc) < 0.200:
+    if address.location.distance_to(user_home_loc) < 0.200:
       neighbor = address.user
       neighbor_packages = Package.objects.filter(purchaser=neighbor)
       for pack in neighbor_packages:
-        pur_home = Address.objects.get(purchaser=pack.purchaser).location
+        pur_home = Address.objects.get(user=pack.purchaser).location
         if user_at_home:
-          if pack.recipient == null:
+          if pack.recipient == None:
             pack.recipient = user
-          elif Address.objects.get(user=pack.recipient).locations.last().distance_to(pur_home)>user_loc.distance_to(pur_home):
+            print(user.name + "is new recipient for " + pack.purchaser.name)
+          elif Address.objects.get(user=pack.recipient).location.distance_to(pur_home)>user_loc.distance_to(pur_home):
             pack.recipient = user
+            print(user.name + "is new recipient for " + pack.purchaser.name)
+          else:
+            print("Nothing happens")
           pack.save()
       
       if user_awaits_package and not user_at_home:
         url = 'https://fcm.googleapis.com/fcm/send'
         to = neighbor.token
+        print(neighbor.name + " is requested to take to package")
         payload = {"to":to,"data":{"title":"notification","title":"A package wants to be delivered","text":"For " + neighbor.name}}
         headers = {"Authorization":"key=AIzaSyAhfw6N9h9j0dGW11Xe_IRaTIK0fsiHwvU","Content-Type":"application/json"}
 
         request = requests.post(url, data=json.dumps(payload), headers=headers)
-        print(request)
+        print("Google request status" + request)
