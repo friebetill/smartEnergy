@@ -6,6 +6,7 @@ from nile_backend.serializers import UserSerializer, PackageSerializer, Location
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics, mixins
+from nile_backend.utils import *
 
 def index(request):
   return HttpResponse("Hello, world. You're at the polls index.")
@@ -29,6 +30,9 @@ class UserList(APIView):
     user.save()
     return Response( status=status.HTTP_201_CREATED)
 
+
+
+
 class PackageList(generics.ListAPIView,
                   mixins.CreateModelMixin,
                   mixins.ListModelMixin):
@@ -40,6 +44,10 @@ class PackageList(generics.ListAPIView,
       user_id = self.kwargs['user_id']
       return Package.objects.filter(purchaser__id=user_id)
     return Package.objects.all()
+
+  # def get(self, request, *args, **kwargs):
+    # return self.list(request, *args, **kwargs)
+
 
 class LocationList(generics.ListAPIView,
                    mixins.CreateModelMixin,
@@ -66,17 +74,15 @@ class LocationList(generics.ListAPIView,
           address = Address.objects.get(user=purchaser)
           distance = location.distance_to(address.location)
           print(distance)
+          duration =  distance_to_time(distance)
+          pack.mins__until_delivery = duration
+          pack.save()
+          if duration <= 5.0:
+            resolve_recipient(purchaser)
         except Address.DoesNotExist:
           pass
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-class LastLocationList(generics.ListAPIView,
-                       mixins.CreateModelMixin,
-                       mixins.ListModelMixin):
-  serializer_class = LocationSerializer
 
-  def get(self, request, user_id):
-    latest_location = Location.objects.last()
-    serializer = LocationSerializer(latest_location, many=False)
-    return Response(serializer.data)
 
+    
