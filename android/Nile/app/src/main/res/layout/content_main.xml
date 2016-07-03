@@ -40,4 +40,14 @@
         android:layout_centerHorizontal="true"
         android:onClick="startDeliver"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Address"
+        android:id="@+id/btnAddress"
+        android:layout_alignBottom="@+id/button"
+        android:layout_alignStart="@+id/button"
+        android:layout_marginBottom="72dp"
+        android:onClick="addAddress"/>
+
 </RelativeLayout>

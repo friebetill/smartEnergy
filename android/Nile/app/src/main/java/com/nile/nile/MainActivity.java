@@ -76,19 +76,21 @@ public class MainActivity extends AppCompatActivity {
 
     /** Called when the user clicks the User button */
     public void setUserView(View view) {
-        SharedPreferences pref = this.getSharedPreferences("Share", Context.MODE_PRIVATE);
-        int currentID = pref.getInt("currentID", -1);
+
 
         Intent intent;
+        intent = new Intent(this, UserRegisterActivity.class);
+        /*
         if(currentID == -1){
             intent = new Intent(this, UserRegisterActivity.class);
         } else {
             intent = new Intent(this, UserActivity.class);
         }
 
+
         SharedPreferences.Editor edit = pref.edit();
         edit.putInt("isUser", 1);
-        edit.commit();
+        edit.commit(); */
 
         startActivity(intent);
     }
@@ -97,11 +99,15 @@ public class MainActivity extends AppCompatActivity {
     public void setDelivererView(View view) {
         Intent intent = new Intent(this, DelivererRegisterActivity.class);;
         startActivity(intent);
-
     }
 
     public void startDeliver(View view) {
         Intent intent = new Intent(this, DelivererActivity.class);
+        startActivity(intent);
+    }
+
+    public void addAddress(View view) {
+        Intent intent = new Intent(this, UserRegisterActivity.class);
         startActivity(intent);
     }
 }
