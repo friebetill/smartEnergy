@@ -13,50 +13,61 @@
     tools:showIn="@layout/activity_main">
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="Create User"
         android:id="@+id/buttonUser"
         android:onClick="createUser"
         android:layout_marginTop="49dp"
         android:layout_alignParentTop="true"
-        android:layout_alignEnd="@+id/btnAddress" />
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="36dp" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="Create Deliverer"
         android:id="@+id/buttonDeliverer"
         android:onClick="setDelivererView"
         android:layout_alignTop="@+id/buttonUser"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignStart="@+id/button" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="START DELIVER"
         android:id="@+id/button"
         android:onClick="startDeliver"
         android:layout_alignTop="@+id/btnAddress"
-        android:layout_alignStart="@+id/buttonDeliverer" />
+        android:layout_toEndOf="@+id/btnAddress"
+        android:layout_marginStart="23dp" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="Add Address"
         android:id="@+id/btnAddress"
         android:onClick="addAddress"
-        android:layout_marginTop="49dp"
-        android:layout_below="@+id/buttonUser"
-        android:layout_alignParentStart="true" />
+        android:layout_marginTop="43dp"
+        android:layout_below="@+id/buttonDeliverer"
+        android:layout_alignStart="@+id/buttonUser" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="Show Orders"
         android:id="@+id/button2"
+        android:onClick="setUserView"
+        android:layout_alignTop="@+id/button3"
+        android:layout_alignStart="@+id/btnAddress" />
+
+    <Button
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:text="Show map"
+        android:id="@+id/button3"
         android:layout_centerVertical="true"
-        android:layout_alignParentStart="true"
-        android:onClick="setUserView"/>
+        android:layout_alignStart="@+id/button"
+        android:onClick="showMap"/>
 
 </RelativeLayout>
