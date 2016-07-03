@@ -21,10 +21,10 @@ def resolve_recipient(user):
   addresses = Address.objects.all()
   user_addr = Address.objects.get(user=user)
   user_home_loc = user_addr.location
-  user_loc = user.locations.last
+  user_loc = user.locations.last()
   distance_to_home = user_home_loc.distance_to(user_loc)
   user_at_home = True if distance_to_home<0.050 else False
-  user_awaits_package = Package.objects.filter(purchaser=user).exits();
+  user_awaits_package = Package.objects.filter(purchaser=user).exists()
 
   for address in addresses:  
     if address.location.distance_to(user_loc) < 0.200:

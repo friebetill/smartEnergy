@@ -77,7 +77,7 @@ class LocationList(generics.ListAPIView,
           duration =  distance_to_time(distance)
           pack.mins__until_delivery = duration
           pack.save()
-          if duration <= 999999999999.0:
+          if duration <= 15.0:
             request_purchaser(purchaser)
         except Address.DoesNotExist:
           pass
