@@ -41,8 +41,6 @@ public class UserActivity extends AppCompatActivity {
 
         new executeGETThread().execute();
 
-        Log.d("TOKEN", FirebaseInstanceId.getInstance().getToken());
-
     }
 
     private void updateOrders(String json) {

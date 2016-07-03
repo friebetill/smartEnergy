@@ -21,9 +21,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         SharedPreferences pref = this.getSharedPreferences("Share", Context.MODE_PRIVATE);
         int userID = pref.getInt("isUser", -1);
-        if(userID == 1) {
+        if (userID == 1) {
             Intent intent = new Intent(this, UserRegisterActivity.class);
             startActivity(intent);
         } else if (userID == 0) {
@@ -40,23 +41,23 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = this.getSharedPreferences("Share", Context.MODE_PRIVATE);
         int isUser = pref.getInt("isUser", -1);
         int currentID = pref.getInt("currentID", -1);
-        Log.d("IsUser",String.valueOf(isUser));
-        Log.d("CurrentID",String.valueOf(currentID));
+        Log.d("IsUser", String.valueOf(isUser));
+        Log.d("CurrentID", String.valueOf(currentID));
 
-        if(isUser == -1){
+        if (isUser == -1) {
             GPSTracker mTracker = new GPSTracker(this);
             double mLatitude = 0;
-            double  mLongitude = 0;
-            if(mTracker.canGetLocation()) {
+            double mLongitude = 0;
+            if (mTracker.canGetLocation()) {
                 mLatitude = mTracker.getLatitude();
                 mLongitude = mTracker.getLongitude();
             } else {
                 mTracker.showSettingsAlert();
             }
-            Toast.makeText(getApplicationContext(),"Current location: Latitude: " + mLatitude + "\n" + "Longitude: " + mLongitude, Toast.LENGTH_LONG).show();
-        } else if (isUser == 1){
+            Toast.makeText(getApplicationContext(), "Current location: Latitude: " + mLatitude + "\n" + "Longitude: " + mLongitude, Toast.LENGTH_LONG).show();
+        } else if (isUser == 1) {
             Intent intent;
-            if(currentID == -1){
+            if (currentID == -1) {
                 intent = new Intent(this, UserRegisterActivity.class);
             } else {
                 intent = new Intent(this, UserActivity.class);
@@ -64,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         } else {
             Intent intent = null;
-            if(currentID == -1){
-                //intent = new Intent(this, DelivererRegisterActivity.class);
+            if (currentID == -1) {
+                intent = new Intent(this, DelivererRegisterActivity.class);
             } else {
                 intent = new Intent(this, DelivererActivity.class);
             }
@@ -73,13 +74,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /** Called when the user clicks the User button */
+    /**
+     * Called when the user clicks the User button
+     */
     public void setUserView(View view) {
         SharedPreferences pref = this.getSharedPreferences("Share", Context.MODE_PRIVATE);
         int currentID = pref.getInt("currentID", -1);
 
         Intent intent;
-        if(currentID == -1){
+        if (currentID == -1) {
             intent = new Intent(this, UserRegisterActivity.class);
         } else {
             intent = new Intent(this, UserActivity.class);
@@ -92,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /** Called when the user clicks the Deliverer button */
+    /**
+     * Called when the user clicks the Deliverer button
+     */
     public void setDelivererView(View view) {
         Intent intent = new Intent(this, DelivererActivity.class);
 

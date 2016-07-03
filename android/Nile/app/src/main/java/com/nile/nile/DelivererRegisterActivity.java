@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,7 +46,6 @@ public class DelivererRegisterActivity extends AppCompatActivity {
             jsonObject.put("type", "deliverer");
             AsynDelivererTask task = new AsynDelivererTask(this);
             task.execute(String.valueOf(jsonObject));
-
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
