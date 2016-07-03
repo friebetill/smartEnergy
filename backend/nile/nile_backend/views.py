@@ -11,6 +11,9 @@ from nile_backend.utils import *
 def index(request):
   return render_to_response('nile_backend/index.html')
 
+def cluster(request):
+  return render_to_response('nile_backend/cluster.html')
+
 class UserList(APIView):
   def get(self, request, format=None):
     users = User.objects.all()
@@ -29,9 +32,6 @@ class UserList(APIView):
     user.token = request.body
     user.save()
     return Response( status=status.HTTP_201_CREATED)
-
-
-
 
 class PackageList(generics.ListAPIView,
                   mixins.CreateModelMixin,
@@ -125,5 +125,13 @@ class DelivererLocationList(APIView):
     # latest_location = Location.objects.filter(user__type=User.USER_DELIVERER)
     # return Response(locations[0])
     serializer = LocationSerializer(locations, many=True)
+    return Response(serializer.data)
+
+class ClientLocationList(APIView):
+
+  def get(self, request):
+    # clients = User.objects.filter(type=User.USER_CLIENT)
+    clients = Location.objects.all()
+    serializer = LocationSerializer(clients, many=True)
     return Response(serializer.data)
 
