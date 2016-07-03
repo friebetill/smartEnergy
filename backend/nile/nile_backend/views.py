@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
 
 from nile_backend.models import Package, User, Location, Address
@@ -9,7 +9,10 @@ from rest_framework import status, generics, mixins
 from nile_backend.utils import *
 
 def index(request):
-  return HttpResponse("Hello, world. You're at the polls index.")
+  return render_to_response('nile_backend/index.html')
+
+def cluster(request):
+  return render_to_response('nile_backend/cluster.html')
 
 class UserList(APIView):
   def get(self, request, format=None):
@@ -29,9 +32,6 @@ class UserList(APIView):
     user.token = request.body
     user.save()
     return Response( status=status.HTTP_201_CREATED)
-
-
-
 
 class PackageList(generics.ListAPIView,
                   mixins.CreateModelMixin,
@@ -77,10 +77,13 @@ class LocationList(generics.ListAPIView,
           duration =  distance_to_time(distance)
           pack.mins__until_delivery = duration
           pack.save()
-          if duration <= 5.0:
-            resolve_recipient(purchaser)
+          if duration <= 999999999999.0:
+            request_purchaser(purchaser)
         except Address.DoesNotExist:
           pass
+    if user.type=='client':
+          resolve_recipient(user)
+
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class AddressList(generics.ListAPIView,
@@ -105,5 +108,33 @@ class LastLocationList(generics.ListAPIView,
                        mixins.ListModelMixin):
   serializer_class = LocationSerializer
 
+  def get(self, request, user_id):    
+    latest_location = Location.objects.last()    
+    serializer = LocationSerializer(latest_location, many=False)    
+    return Response(serializer.data)
 
-    
+
+class DelivererLocationList(APIView):
+
+  def get(self, request):
+    deliverers = User.objects.filter(type=User.USER_DELIVERER)
+    locations = []
+    for d in deliverers:
+      try:
+        l = Location.objects.filter(user=d).latest('created_at')
+        locations.append(l)
+      except Location.DoesNotExist:
+        pass
+    # latest_location = Location.objects.filter(user__type=User.USER_DELIVERER)
+    # return Response(locations[0])
+    serializer = LocationSerializer(locations, many=True)
+    return Response(serializer.data)
+
+class ClientLocationList(APIView):
+
+  def get(self, request):
+    # clients = User.objects.filter(type=User.USER_CLIENT)
+    clients = Location.objects.all()
+    serializer = LocationSerializer(clients, many=True)
+    return Response(serializer.data)
+

@@ -23,6 +23,7 @@ from nile_backend import views
 
 
 urlpatterns = [
+    url(r'^', include('nile_backend.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^users/$', views.UserList.as_view()),
@@ -32,6 +33,8 @@ urlpatterns = [
     url(r'^users/(?P<user_id>.+)/locations/$', views.LocationList.as_view()),
     url(r'^users/(?P<user_id>.+)/latest_location/$', views.LastLocationList.as_view()),
     url(r'^users/(?P<user_id>.+)/addresses/$', views.AddressList.as_view()),
+    url(r'^deliverers/latest_locations/$', views.DelivererLocationList.as_view()),
+    url(r'^clients/locations/$', views.ClientLocationList.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
