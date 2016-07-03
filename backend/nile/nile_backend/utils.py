@@ -16,7 +16,7 @@ def request_purchaser(user):
   print(request)
 
 def resolve_recipient(user):
-  #Get users in neigborhood
+  #Get users in neighborhood
 
   addresses = Address.objects.all()
   user_addr = Address.objects.get(user=user)
@@ -28,9 +28,9 @@ def resolve_recipient(user):
 
   for address in addresses:  
     if address.location.distance_to(user_loc) < 0.200:
-      neigbor = address.user
-      neigbor_packages = Packages.objects.filter(user=neigbor)
-      for pack in neigbor_packages:
+      neighbor = address.user
+      neighbor_packages = Package.objects.filter(user=neighbor)
+      for pack in neighbor_packages:
         pur_home = Address.object.get(user=pack.purchaser).location
         if user_at_home:
           if pack.recipient == null:
@@ -41,8 +41,8 @@ def resolve_recipient(user):
       
       if user_awaits_package and not user_at_home:
         url = 'https://fcm.googleapis.com/fcm/send'
-        to = neigbor.token
-        payload = {"to":to,"notification":{"title":"CheckDisOut","text":"Moin"}}
+        to = neighbor.token
+        payload = {"to":to,"data":{"title":"notification","title":"A package wants to be delivered","text":"For " + neighbor.name}}
         headers = {"Authorization":"key=AIzaSyAhfw6N9h9j0dGW11Xe_IRaTIK0fsiHwvU","Content-Type":"application/json"}
 
         request = requests.post(url, data=json.dumps(payload), headers=headers)
