@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^users/(?P<user_id>.+)/store_token/$', views.UserList.as_view()),
     url(r'^users/(?P<user_id>.+)/locations/$', views.LocationList.as_view()),
     url(r'^users/(?P<user_id>.+)/latest_location/$', views.LastLocationList.as_view()),
+    url(r'^users/(?P<user_id>.+)/addresses/$', views.AddressList.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

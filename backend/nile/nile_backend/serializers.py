@@ -35,6 +35,10 @@ class AddressSerializer(serializers.Serializer):
     updated_at = serializers.DateTimeField(required=False)
 
     def create(self, validated_data):
+      location_data = validated_data.pop('location', None)
+      if location_data:
+        location = Location.objects.get_or_create(**location_data)[0]
+      validated_data['location'] = location
       return Address.objects.create(**validated_data)
 
 class FavoriteSerializer(serializers.Serializer):
@@ -57,6 +61,7 @@ class PackageSerializer(serializers.Serializer):
     created_at = serializers.DateTimeField(required=False)
     updated_at = serializers.DateTimeField(required=False)
     mins_until_delivery = serializers.FloatField(max_value=None, min_value=None, required=False, allow_null=True)
+    sender = serializers.CharField(max_length=255, required=False)
 
     def create(self, validated_data):
       return Package.objects.create(**validated_data)
