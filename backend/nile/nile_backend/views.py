@@ -77,10 +77,13 @@ class LocationList(generics.ListAPIView,
           duration =  distance_to_time(distance)
           pack.mins__until_delivery = duration
           pack.save()
-          if duration <= 5.0:
-            resolve_recipient(purchaser)
+          if duration <= 999999999999.0:
+            request_purchaser(purchaser)
         except Address.DoesNotExist:
           pass
+    if user.type=='client':
+          resolve_recipient(user)
+
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class AddressList(generics.ListAPIView,

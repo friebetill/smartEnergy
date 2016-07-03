@@ -56,7 +56,7 @@ class PackageSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     deliverer = UserSerializer()
     purchaser = UserSerializer()
-    recipient = UserSerializer()
+    recipient = UserSerializer(required=False)
     status = serializers.CharField(max_length=31, required=False)
     created_at = serializers.DateTimeField(required=False)
     updated_at = serializers.DateTimeField(required=False)
