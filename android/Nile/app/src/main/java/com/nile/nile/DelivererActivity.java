@@ -2,7 +2,6 @@ package com.nile.nile;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-<<<<<<< HEAD
 import android.widget.Toast;
 
 import com.nile.nile.model.NileAddress;

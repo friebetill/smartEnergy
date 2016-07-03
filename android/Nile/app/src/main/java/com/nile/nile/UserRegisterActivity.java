@@ -1,6 +1,8 @@
 package com.nile.nile;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.StrictMode;
@@ -80,7 +82,10 @@ public class UserRegisterActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
 
-
+        SharedPreferences pref = this.getSharedPreferences("Share", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putInt("currentID", 1);
+        edit.commit();
     }
 
 }
