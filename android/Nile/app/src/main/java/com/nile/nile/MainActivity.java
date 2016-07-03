@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        /*
         SharedPreferences pref = this.getSharedPreferences("Share", Context.MODE_PRIVATE);
         int userID = pref.getInt("isUser", -1);
         if(userID == 1) {
@@ -29,10 +30,10 @@ public class MainActivity extends AppCompatActivity {
         } else if (userID == 0) {
             Intent intent = new Intent(this, DelivererActivity.class);
             startActivity(intent);
-        }
+        } */
 
     }
-
+/*
     @Override
     protected void onResume() {
         super.onResume();
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             }
             startActivity(intent);
         }
-    }
+    } */
 
     /** Called when the user clicks the User button */
     public void setUserView(View view) {
@@ -94,14 +95,13 @@ public class MainActivity extends AppCompatActivity {
 
     /** Called when the user clicks the Deliverer button */
     public void setDelivererView(View view) {
-        Intent intent = new Intent(this, DelivererActivity.class);
-
-        SharedPreferences pref = this.getSharedPreferences("Share", Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit = pref.edit();
-        edit.putInt("isUser", 0);
-        edit.commit();
-
+        Intent intent = new Intent(this, DelivererRegisterActivity.class);;
         startActivity(intent);
 
+    }
+
+    public void startDeliver(View view) {
+        Intent intent = new Intent(this, DelivererActivity.class);
+        startActivity(intent);
     }
 }
