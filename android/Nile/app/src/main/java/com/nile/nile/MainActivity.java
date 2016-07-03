@@ -1,6 +1,8 @@
 package com.nile.nile;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        SharedPreferences pref = this.getSharedPreferences("Share", Context.MODE_PRIVATE);
+        int userID = pref.getInt("isUser", -1);
+        if(userID == 1) {
+            Intent intent = new Intent(this, UserRegisterActivity.class);
+            startActivity(intent);
+        } else if (userID == 0) {
+            Intent intent = new Intent(this, DelivererActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -52,5 +63,6 @@ public class MainActivity extends AppCompatActivity {
     public void setDelivererView(View view) {
         Intent intent = new Intent(this, DelivererRegisterActivity.class);
         startActivity(intent);
+
     }
 }
