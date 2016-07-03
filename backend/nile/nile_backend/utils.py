@@ -29,7 +29,7 @@ def resolve_recipient(user):
   for address in addresses:  
     if address.location.distance_to(user_loc) < 0.200:
       neighbor = address.user
-      neighbor_packages = Package.objects.filter(user=neighbor)
+      neighbor_packages = Package.objects.filter(purchaser=neighbor)
       for pack in neighbor_packages:
         pur_home = Address.object.get(purchaser=pack.purchaser).location
         if user_at_home:
