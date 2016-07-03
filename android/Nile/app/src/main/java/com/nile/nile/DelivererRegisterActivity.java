@@ -44,6 +44,7 @@ public class DelivererRegisterActivity extends AppCompatActivity {
         try {
             jsonObject.put("name", name);
             jsonObject.put("type", "deliverer");
+            jsonObject.put("token",  FirebaseInstanceId.getInstance().getToken());
             AsynDelivererTask task = new AsynDelivererTask(this);
             task.execute(String.valueOf(jsonObject));
         } catch (JSONException ex) {
@@ -134,6 +135,7 @@ public class DelivererRegisterActivity extends AppCompatActivity {
                     edit.putInt("currentID", delivererID);
                     edit.putInt("isUser", 0);
                     edit.commit();
+                    Toast.makeText(mContext,"User Created!", Toast.LENGTH_LONG).show();
                 } catch (JSONException ex) {
                     ex.printStackTrace();
                 }

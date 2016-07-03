@@ -19,8 +19,13 @@ public class MainActivity extends AppCompatActivity {
         /*
         SharedPreferences pref = this.getSharedPreferences("Share", Context.MODE_PRIVATE);
         int userID = pref.getInt("isUser", -1);
+<<<<<<< HEAD
+        if(userID == 1) {
+            Intent intent = new Intent(this, UserAddAddressActivity.class);
+=======
         if (userID == 1) {
             Intent intent = new Intent(this, UserRegisterActivity.class);
+>>>>>>> 6cc5717f5942e0a6e05f4e8d264f549b5c2c8177
             startActivity(intent);
         } else if (userID == 0) {
             Intent intent = new Intent(this, DelivererActivity.class);
@@ -52,8 +57,13 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Current location: Latitude: " + mLatitude + "\n" + "Longitude: " + mLongitude, Toast.LENGTH_LONG).show();
         } else if (isUser == 1) {
             Intent intent;
+<<<<<<< HEAD
+            if(currentID == -1){
+                intent = new Intent(this, UserAddAddressActivity.class);
+=======
             if (currentID == -1) {
                 intent = new Intent(this, UserRegisterActivity.class);
+>>>>>>> 6cc5717f5942e0a6e05f4e8d264f549b5c2c8177
             } else {
                 intent = new Intent(this, UserActivity.class);
             }
@@ -76,10 +86,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         Intent intent;
-        intent = new Intent(this, UserRegisterActivity.class);
+        intent = new Intent(this, UserActivity.class);
         /*
         if(currentID == -1){
-            intent = new Intent(this, UserRegisterActivity.class);
+            intent = new Intent(this, UserAddAddressActivity.class);
         } else {
             intent = new Intent(this, UserActivity.class);
         }
@@ -106,7 +116,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addAddress(View view) {
+        Intent intent = new Intent(this, UserAddAddressActivity.class);
+        startActivity(intent);
+    }
+
+    public void createUser(View view) {
         Intent intent = new Intent(this, UserRegisterActivity.class);
+        startActivity(intent);
+    }
+
+    public void showMap(View view) {
+        Intent intent = new Intent(this, MapActivity.class);
         startActivity(intent);
     }
 }

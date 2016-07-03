@@ -1,26 +1,17 @@
 package com.nile.nile;
 
-
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.webkit.JsResult;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.gson.JsonObject;
-import com.nile.nile.util.UrlBuilder;
-import com.nile.nile.api.ApiCall;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,106 +24,40 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Iterator;
 
 public class UserRegisterActivity extends AppCompatActivity {
-
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_register);
-        if (Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
-
     }
 
-
     public void createUser(View view) {
-
-        EditText etName = (EditText) findViewById(R.id.tvName);
-        EditText etStreet = (EditText) findViewById(R.id.tvAddress);
-        EditText etHouseNumber = (EditText) findViewById(R.id.tvHouseNumber);
-        EditText etZipCode = (EditText) findViewById(R.id.tvZipCode);
-        EditText etFloor = (EditText) findViewById(R.id.tvFloor);
-        EditText etCity = (EditText) findViewById(R.id.tvCity);
-
+        EditText etName = (EditText) findViewById(R.id.etNameUser);
         String name = etName.getText().toString();
-        String street = etStreet.getText().toString();
-        int houseNumber = Integer.parseInt(etHouseNumber.getText().toString());
-        int zipCode = Integer.parseInt(etZipCode.getText().toString());
-        int floor = Integer.parseInt(etFloor.getText().toString());
-        String city = etCity.getText().toString();
 
-        UrlBuilder url = new UrlBuilder();
-        String apiUrl = url.constructApiUrl(street, houseNumber, zipCode, city);
-        ApiCall request = new ApiCall();
-        String response = request.getLocationData(apiUrl);
+        JSONObject jsonObject = new JSONObject();
         try {
-            JSONObject location = new JSONObject(response);
-            Log.d("RESULT", location.toString());
-            JSONObject jsonResponse = location.getJSONObject("Response");
-            JSONArray viewArray = jsonResponse.getJSONArray("View");
-            JSONObject result = viewArray.getJSONObject(0);
-            JSONArray apiArray = result.getJSONArray("Result");
-            JSONObject address = apiArray.getJSONObject(0);
-            JSONObject locationAddress = address.getJSONObject("Location");
-            JSONObject displayPosition = locationAddress.getJSONObject("DisplayPosition");
-            JSONObject apiAddress = locationAddress.getJSONObject("Address");
-            String latitude = displayPosition.getString("Latitude");
-            String longitude = displayPosition.getString("Longitude");
-            String postalCode = apiAddress.getString("PostalCode");
-            String apiHouseNumber = apiAddress.getString("HouseNumber");
-            String apiStreet = apiAddress.getString("Street");
-            String apiCity = apiAddress.getString("City");
+            jsonObject.put("name", name);
+            jsonObject.put("type", "client");
+            jsonObject.put("token",  FirebaseInstanceId.getInstance().getToken());
+            AsyncClientTask task = new AsyncClientTask(this);
+            task.execute(String.valueOf(jsonObject));
 
-            Log.d("Latitude", latitude);
-            Log.d("longitude", longitude);
-            Log.d("zipcode", postalCode);
-            Log.d("Street", apiStreet);
-            Log.d("Number", apiHouseNumber);
-            Log.d("City", apiCity);
-            JSONObject jsonLocation = new JSONObject();
-            jsonLocation.put("lat", latitude);
-            jsonLocation.put("lng", longitude);
-            JSONObject jsonObjectSend = new JSONObject();
-            try {
-                jsonObjectSend.put("name", name);
-                jsonObjectSend.put("street", apiStreet + " " + apiHouseNumber);
-                jsonObjectSend.put("postcode", postalCode);
-                jsonObjectSend.put("city", apiCity);
-                jsonObjectSend.put("country", "Germany");
-                jsonObjectSend.put("floor", floor);
-                jsonObjectSend.put("location", jsonLocation);
-                SharedPreferences pref = this.getSharedPreferences("Share", Context.MODE_PRIVATE);
-                int currentID = pref.getInt("currentID", -1);
-                AsyncUserTask postAddress = new AsyncUserTask(currentID);
-                postAddress.execute(String.valueOf(jsonObjectSend));
-            } catch (JSONException ex) {
-                ex.printStackTrace();
-            }
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
-
     }
 
-    private class AsyncUserTask extends AsyncTask<String, Void, String> {
-
+    private class AsyncClientTask extends AsyncTask<String, Void, String> {
         private String apiEndPoint = "http://54.93.34.46/users/";
-        private int userID;
+        private Context mContext;
+        private int clientID;
 
-        public AsyncUserTask(int userID) {
-            this.userID = userID;
+        public AsyncClientTask(Context context) {
+            mContext = context;
         }
-
 
         @Override
         protected String doInBackground(String... params) {
@@ -141,7 +66,7 @@ public class UserRegisterActivity extends AppCompatActivity {
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
             try {
-                URL url = new URL(apiEndPoint + userID + "/addresses/");
+                URL url = new URL(apiEndPoint);
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setDoOutput(true);
                 urlConnection.setRequestMethod("POST");
@@ -199,7 +124,24 @@ public class UserRegisterActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            try {
+                JSONObject client = new JSONObject(s);
+                try {
+                    clientID = client.getInt("id");
+                    SharedPreferences pref = mContext.getSharedPreferences("Share", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor edit = pref.edit();
+                    edit.putInt("currentID", clientID);
+                    edit.putInt("isUser", 1);
+                    edit.commit();
+                    Toast.makeText(mContext,"User Created!", Toast.LENGTH_LONG).show();
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
+                }
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
         }
     }
+
 
 }
