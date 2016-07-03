@@ -35,7 +35,7 @@ def resolve_recipient(user):
         if user_at_home:
           if pack.recipient == null:
             pack.recipient = user
-          elif Address.objects.get(user=pack.recipient).location.distance_to(pur_home)>user_loc.distance_to(pur_home):
+          elif Address.objects.get(user=pack.recipient).locations.last().distance_to(pur_home)>user_loc.distance_to(pur_home):
             pack.recipient = user
           pack.save()
       
