@@ -97,3 +97,20 @@ class LastLocationList(generics.ListAPIView,
     serializer = LocationSerializer(latest_location, many=False)
     return Response(serializer.data)
 
+class DelivererLocationList(APIView):
+
+  def get(self, request):
+    deliverers = User.objects.filter(type=User.USER_DELIVERER)
+    locations = []
+    for d in deliverers:
+      try:
+        l = Location.objects.filter(user=d).latest('created_at')
+        locations.append(l)
+      except Location.DoesNotExist:
+        pass
+    # latest_location = Location.objects.filter(user__type=User.USER_DELIVERER)
+    # return Response(locations[0])
+    serializer = LocationSerializer(locations, many=True)
+    return Response(serializer.data)
+
+
