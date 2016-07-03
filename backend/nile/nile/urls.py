@@ -23,6 +23,7 @@ from nile_backend import views
 
 
 urlpatterns = [
+    url(r'^', include('nile_backend.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^users/$', views.UserList.as_view()),

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
 
 from nile_backend.models import Package, User, Location, Address
@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status, generics, mixins
 
 def index(request):
-  return HttpResponse("Hello, world. You're at the polls index.")
+  return render_to_response('nile_backend/index.html')
 
 class UserList(APIView):
   def get(self, request, format=None):
