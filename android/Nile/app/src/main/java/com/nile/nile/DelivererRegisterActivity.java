@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,9 +44,9 @@ public class DelivererRegisterActivity extends AppCompatActivity {
         try {
             jsonObject.put("name", name);
             jsonObject.put("type", "deliverer");
+            jsonObject.put("token",  FirebaseInstanceId.getInstance().getToken());
             AsynDelivererTask task = new AsynDelivererTask(this);
             task.execute(String.valueOf(jsonObject));
-
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
@@ -133,6 +135,7 @@ public class DelivererRegisterActivity extends AppCompatActivity {
                     edit.putInt("currentID", delivererID);
                     edit.putInt("isUser", 0);
                     edit.commit();
+                    Toast.makeText(mContext,"User Created!", Toast.LENGTH_LONG).show();
                 } catch (JSONException ex) {
                     ex.printStackTrace();
                 }
