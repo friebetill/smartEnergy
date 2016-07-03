@@ -1,5 +1,7 @@
 package com.nile.nile;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -26,8 +28,10 @@ public class DelivererActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deliverer);
-        mTracker = new GPSTracker(this);
-        if (mTracker.canGetLocation()) {
+        SharedPreferences pref = this.getSharedPreferences("Share", Context.MODE_PRIVATE);
+        int currentID = pref.getInt("currentID", -1);
+        mTracker = new GPSTracker(this, currentID);
+        if(mTracker.canGetLocation()) {
             mLatitude = mTracker.getLatitude();
             mLongitude = mTracker.getLongitude();
         } else {

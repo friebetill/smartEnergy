@@ -49,9 +49,6 @@ public class DelivererRegisterActivity extends AppCompatActivity {
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
-
-
-
     }
 
     private class AsynDelivererTask extends AsyncTask<String, Void, String> {

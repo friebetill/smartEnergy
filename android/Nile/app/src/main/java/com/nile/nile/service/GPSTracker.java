@@ -42,6 +42,8 @@ public class GPSTracker extends Service implements LocationListener {
 
     private final Context mContext;
 
+    private int deliverID;
+
     // flag for GPS status
     boolean isGPSEnabled = false;
     // flag for network status
@@ -57,13 +59,14 @@ public class GPSTracker extends Service implements LocationListener {
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 1 meters
 
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 5 minute
+    private static final long MIN_TIME_BW_UPDATES = 200; // 5 minute
 
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
-    public GPSTracker(Context context) {
+    public GPSTracker(Context context, int ID) {
         this.mContext = context;
+        this.deliverID = ID;
          getLocation(context);
     }
 
@@ -185,7 +188,7 @@ public class GPSTracker extends Service implements LocationListener {
         try {
             newLocation.put("lat", location.getLatitude());
             newLocation.put("lng", location.getLongitude());
-            JSONTask postTask = new JSONTask(this);
+            JSONTask postTask = new JSONTask(this, deliverID);
             postTask.execute(String.valueOf(newLocation));
 
         } catch (JSONException ex) {
@@ -213,13 +216,14 @@ public class GPSTracker extends Service implements LocationListener {
    private class JSONTask extends AsyncTask<String, Void, String> {
 
        private Context mContext;
+       private int userID;
 
-       private final String apiEndPoint = "http://54.93.34.46/users/";
+       private String apiEndPoint = "http://54.93.34.46/users/";
 
-       public JSONTask(Context context) {
+       public JSONTask(Context context, int ID) {
            mContext = context;
+           userID = ID;
        }
-
 
        @Override
        protected String doInBackground(String... params) {
@@ -227,9 +231,6 @@ public class GPSTracker extends Service implements LocationListener {
            String jsonResponse = null;
            HttpURLConnection urlConnection = null;
            BufferedReader reader = null;
-
-           SharedPreferences pref = mContext.getSharedPreferences("Share", Context.MODE_PRIVATE);
-           int userID = pref.getInt("currentID", -1);
 
            try {
                URL url = new URL(apiEndPoint + userID + "/locations/");

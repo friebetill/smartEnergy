@@ -1,16 +1,10 @@
 package com.nile.nile;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
-
-import com.nile.nile.service.GPSTracker;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -22,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        /*
         SharedPreferences pref = this.getSharedPreferences("Share", Context.MODE_PRIVATE);
         int userID = pref.getInt("isUser", -1);
         if (userID == 1) {
@@ -30,10 +25,10 @@ public class MainActivity extends AppCompatActivity {
         } else if (userID == 0) {
             Intent intent = new Intent(this, DelivererActivity.class);
             startActivity(intent);
-        }
+        } */
 
     }
-
+/*
     @Override
     protected void onResume() {
         super.onResume();
@@ -72,25 +67,27 @@ public class MainActivity extends AppCompatActivity {
             }
             startActivity(intent);
         }
-    }
+    } */
 
     /**
      * Called when the user clicks the User button
      */
     public void setUserView(View view) {
-        SharedPreferences pref = this.getSharedPreferences("Share", Context.MODE_PRIVATE);
-        int currentID = pref.getInt("currentID", -1);
+
 
         Intent intent;
-        if (currentID == -1) {
+        intent = new Intent(this, UserRegisterActivity.class);
+        /*
+        if(currentID == -1){
             intent = new Intent(this, UserRegisterActivity.class);
         } else {
             intent = new Intent(this, UserActivity.class);
         }
 
+
         SharedPreferences.Editor edit = pref.edit();
         edit.putInt("isUser", 1);
-        edit.commit();
+        edit.commit(); */
 
         startActivity(intent);
     }
@@ -99,14 +96,17 @@ public class MainActivity extends AppCompatActivity {
      * Called when the user clicks the Deliverer button
      */
     public void setDelivererView(View view) {
-        Intent intent = new Intent(this, DelivererActivity.class);
-
-        SharedPreferences pref = this.getSharedPreferences("Share", Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit = pref.edit();
-        edit.putInt("isUser", 0);
-        edit.commit();
-
+        Intent intent = new Intent(this, DelivererRegisterActivity.class);;
         startActivity(intent);
+    }
 
+    public void startDeliver(View view) {
+        Intent intent = new Intent(this, DelivererActivity.class);
+        startActivity(intent);
+    }
+
+    public void addAddress(View view) {
+        Intent intent = new Intent(this, UserRegisterActivity.class);
+        startActivity(intent);
     }
 }
